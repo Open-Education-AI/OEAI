@@ -6,6 +6,7 @@ Requirements:
 * Cloud Infrastructure meeting OEAI framework standards
 * Wonde school installations, either as a Trust, or through OEAI (contact us)
 * KeyVault configured (see below)
+* [oeai_py.ipynb](oeai_py.ipynb) 
 
 Module assets:
 * oeai_mod_wonde_bronze.ipynb: a notebook that loops through all schools and enpoints configured and stores the data in the data lake Bronze layer in json format.
