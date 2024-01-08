@@ -18,4 +18,13 @@ To simplify our approach, we use a Minecraft metaphor for the building blocks:
 * We use __Brick__ 'Packages' to draw together data from Modules and design and create the structures to produce the outcomes.  This might be through data visualisation and reports, machine learning for predictions, or generative AI.
 * __Diamond__ is the real value we derive from this actionable insight, and is where the OEAI framework both starts, and ends.  The 'Education Use Case' is an essential part of the process that defines the 'why'.
 
+The following diagram represents this visually, using a number of Education Use Cases that are currently in production with MATs, and examples of common EdTech products in use as Modules.
 
+![The Minecraft Metaphor](docs/pics/Minecraft_Metaphor2.png)
+
+To illustrate how different Education Use Cases may be built with this approach, take two currently in production.  Here we can see that MIS Insight, a Package with standard data visualistion across schools, attendance, exclusions and conduct, can work with Wonde, Bromcom or Arbor Modules, and that the Contextual Safeguarding Risk package requires Wonde and CPOMS Modules. Both are currently run from a Microsoft cloud infrastructure.
+
+![Building blocks](docs/pics/Mincraft_Metaphor3.png)
+
+## GitHub Repository structure
+The structure of this GitHub repository follows this process.  
