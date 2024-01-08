@@ -18,21 +18,21 @@ To simplify our approach, we use a Minecraft metaphor for the building blocks:
 * We use __Brick__ 'Packages' to draw together data from Modules and design and create the structures to produce the outcomes.  This might be through data visualisation and reports, machine learning for predictions, or generative AI.
 * __Diamond__ is the real value we derive from this actionable insight, and is where the OEAI framework both starts, and ends.  The 'Education Use Case' is an essential part of the process that defines the 'why'.
 
-The following diagram represents this visually, using a number of Education Use Cases that are currently in production with MATs, and examples of common EdTech products in use as Modules.
+The following diagram represents this visually, using a number of Education Use Cases that are currently in production with MATs, and examples of common EdTech products in use as Modules (these are illustrative only, other products are available...):
 
 ![The Minecraft Metaphor](docs/pics/Minecraft_Metaphor2.png)
 
-To illustrate how different Education Use Cases may be built with this approach, take two currently in production.  Here we can see that MIS Insight, a Package with standard data visualistion across schools, attendance, exclusions and conduct, can work with Wonde, Bromcom or Arbor Modules, and that the Contextual Safeguarding Risk package requires Wonde and CPOMS Modules. Both are currently run from a Microsoft cloud infrastructure.
+To illustrate how different Education Use Cases may be built with this approach, lets take an example of two currently in production.  Here we can see that MIS Insight, a Package with standard data visualistion across schools, attendance, exclusions and conduct, can work with Wonde, Bromcom or Arbor Modules, and that the Contextual Safeguarding Risk package requires Wonde and CPOMS Modules. Both are currently run from a Microsoft cloud infrastructure:
 
 ![Building blocks](docs/pics/Mincraft_Metaphor3.png)
 
-## GitHub Repository structure
+## GitHub repository structure
 The structure of this GitHub repository follows this process.  
 
-* [education-use_cases](education-use-cases).  This folder contains template to use for the Education Use Case, as well as each published version.
+* [education-use-cases](education-use-cases).  This folder contains a template to use for the Education Use Case, as well as each published version when they are produced.
 * [packages](packages).  This folder contains the technical assets (such as jupyter notebooks) and documentation related to each published package.
 * [modules](modules).  This folder contains the technical assets (such as jupyter notebooks),and documentation related to each published module.
-* [cloud-infrastructure](cloud-infrastructure). This folder contains the technical assets (such as installation scripts),and documentation related to the main cloud vendors used by MATs.
+* [cloud-infrastructure](cloud-infrastructure). This folder contains the technical assets (such as installation scripts), and documentation related to the main cloud vendors used by MATs.
 
 The repository has been created in January 2024 and will build over time as participation grows.  The following assets are currently under construction:
 
@@ -51,4 +51,3 @@ The repository has been created in January 2024 and will build over time as part
     * Keeping Children Safe in Education
     * Tackling Persistent Absence
     * Improving Reading (Microsoft Reading Progress)
-
