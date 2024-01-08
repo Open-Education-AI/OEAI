@@ -28,3 +28,27 @@ To illustrate how different Education Use Cases may be built with this approach,
 
 ## GitHub Repository structure
 The structure of this GitHub repository follows this process.  
+
+* [education-use_cases](education-use-cases).  This folder contains template to use for the Education Use Case, as well as each published version.
+* [packages](packages).  This folder contains the technical assets (such as jupyter notebooks) and documentation related to each published package.
+* [modules](modules).  This folder contains the technical assets (such as jupyter notebooks),and documentation related to each published module.
+* [cloud-infrastructure](cloud-infrastructure). This folder contains the technical assets (such as installation scripts),and documentation related to the main cloud vendors used by MATs.
+
+The repository has been created in January 2024 and will build over time as participation grows.  The following assets are currently under construction:
+
+* Cloud Infrastructure for Microsoft Fabric. Scripts to automate the creation of Fabric Capacity and related Azure Resources to OEAI framework standards.
+* The OEAI Python Reference.  A helper Class containing OEAI standard functions used in Modules and Packages.
+* Wonde OEAI Module.  This is ready for publication.
+* Bromcom OEAI Module.  Expected publication February, based on Bromcom's API.
+* MIS Insight Package.  Jupyter Notebooks and Power BI assets to provide a straightforward Trust Analytics on common MIS data.
+* Predictive Attendance Package.  To understand historical attednance patterns and predict future attenedance and attendance risk for intervention.  Led by Dixons Academies Trust.
+* Contextual Safeguarding Risk Package.  An ethical predictive risk package underpinned by the conceptual contextual safeguarding model.  Led by Greenwood Academies Trust.
+* CPOMS OEAI Module.  Required by the Contextual Safeguarding Risk Package.
+* Police Crime Data OEAI Module. Required by the Contextual Safeguarding Risk Package.
+* Weather Module. Required by the Predictve Attendance Package.
+* Education Use Cases:
+    * Foundational Analytics
+    * Keeping Children Safe in Education
+    * Tackling Persistent Absence
+    * Improving Reading (Microsoft Reading Progress)
+

@@ -5,3 +5,5 @@ The purpose of the Education Use Case is to:
 * Ensure that it can be delivered successfully through identification of the stakeholders including students and parents if appropriate, and malicious actors.
 * Map existing education theory or research to the data. This is important as the data needed to address the challenge may be in different systems, or new data may need to be collected to support the analysis.
 * Finally, Responsible AI principles are reviewed and applied to ensure that we have all considered important aspects such as fairness, privacy and accountability.
+
+A template is available [here](education-use-cases/OEAI_Education_Use_Case_Template.docx).
