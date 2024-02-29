@@ -1,3 +1,34 @@
+
+function Print-Hashtableparam(
+        [Parameter(Mandatory = $true)]
+        [System.Collections.Hashtable]$myHashtable){
+    foreach ($key in $myHashtable.Keys) 
+    {
+        Write-Host "$key : $($myHashtable[$key])"
+    }
+}
+
+function Print-ObjectProperties {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$Object,
+        
+        [string]$Prefix = ""
+    )
+
+    $Object | Get-Member -MemberType Property | ForEach-Object {
+        $propertyName = $_.Name
+        $propertyValue = $Object.$propertyName
+        
+        Write-Host "$Prefix$propertyName : $propertyValue"
+        
+        # Recursively print nested properties if the property value is an object
+        if ($propertyValue -is [System.Object]) {
+            Print-ObjectProperties -Object $propertyValue -Prefix ("    $Prefix")
+        }
+    }
+}
+
 function Upload-NotebookFiles {
     param (
         [System.IO.FileInfo[]]$NotebookFiles,
@@ -9,7 +40,7 @@ function Upload-NotebookFiles {
     foreach ($notebookFile in $NotebookFiles) {
         $notebookContent = Get-Content -Path $notebookFile.FullName -Raw
         $base64Content = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($notebookContent))
-        Write-Output "Notebook $($notebookFile.Name) converted to inline Base64 string:"
+        Write-Output "Notebook $($notebookFile.Name) - $($FabricCreateUrl) converted to inline Base64 string"
         
         $notebookName = $notebookFile.BaseName
         Write-Output $notebookName
@@ -19,23 +50,35 @@ function Upload-NotebookFiles {
             Write-Host "Notebook $notebookName is already present $($notebookInstance)"
         }
         else {
-            $jsonBody = @{
-                displayName = $notebookName
-                type = "Notebook"
-                definition = @{
-                    format = "ipynb"
-                    parts = @(
-                        @{
-                            path = "artifact.content.ipynb"
-                            payload = $base64Content
-                            payloadType = "InlineBase64"
-                        }
-                    )
-                }
-            } | ConvertTo-Json
+          $jsonBody = @"
+		{
+			"displayName": "$notebookName",
+			"type": "Notebook",
+			"definition": {
+				"format": "ipynb",
+				"parts": [
+					{
+						"path": "artifact.content.ipynb",
+						"payload": "$base64Content",
+						"payloadType": "InlineBase64"
+					}
+				]
+			}
+		}
+"@
 
+            try {
             $response = Invoke-RestMethod -Uri $FabricCreateUrl -Method Post -Body $jsonBody -Headers $Headers
-            Write-Host "$($notebookFile.Name) is created"
+            $response.ErrorDetails
+            }
+            catch {
+                # Print the entire exception
+                $_.ErrorDetails | Format-List * -Force
+                Write-Host "Exception Message: $($_.Exception.Message)"
+                Write-Host "Exception StackTrace: $($_.Exception.StackTrace)"
+                Write-Host "Exception InnerException: $($_.Exception.InnerException)"
+                Write-Host "Exception ErrorDetails: $($_.Exception.ErrorDetails.Message)"
+            }
         }
     }
 }
@@ -57,6 +100,13 @@ function Configure-OEAI {
     if (-not $azAccountsModule) {
         Install-Module Az.Accounts -Scope CurrentUser
     }
+
+    $powerBIModule = Get-Module -Name MicrosoftPowerBIMgmt -ListAvailable
+    if (-not $powerBIModule) {
+        Install-Module MicrosoftPowerBIMgmt -Scope CurrentUser -Force -AllowClobber
+    }
+
+    Import-Module MicrosoftPowerBIMgmt
 
     $fabtoolsModule = Get-Module -Name Fabtools -ListAvailable
 
@@ -85,6 +135,15 @@ function Configure-OEAI {
         "Authorization" = $accessToken
     }
 
+    if ($WorkspaceId -eq '' -or -not $WorkspaceId) {
+        Connect-PowerBIServiceAccount
+
+        # Step 4: Create a workspace
+        $workspaceName = "Open Education AI"
+        $workspace = New-PowerBIWorkspace -Name $workspaceName
+        $WorkspaceId = $workspace.Id
+    }
+
     $response = Invoke-RestMethod -Uri "https://api.fabric.microsoft.com/v1/capacities" -Method GET -Headers $headers
 
     $response.value | Format-Table
@@ -103,6 +162,7 @@ function Configure-OEAI {
     Write-Host "value of $($lakeHouseInstance)"
     if ($lakeHouseInstance) {
         Write-Host "oealkhouse is already present $($lakeHouseInstance)"
+        Print-ObjectProperties $lakeHouseInstance
     }
     else {
         $body = @{
@@ -112,14 +172,15 @@ function Configure-OEAI {
 
         $response = Invoke-RestMethod -Uri $fabricCreateUrl -Method Post -Body $body -Headers $headers
         write-Host "Lakehouse is created"
+        Print-ObjectProperties $response
     }
 
-    $notebooksFolder = "."
+    $notebooksFolder = "..\modules\wonde\."
     $notebookFiles = Get-ChildItem -Path $notebooksFolder -Filter *.ipynb
     Upload-NotebookFiles -NotebookFiles $notebookFiles -ExistingItems $existingItems -FabricCreateUrl $fabricCreateUrl -Headers $headers
 
     #for oeai_py in root folder
-    $notebooksFolder = "..\..\."
+    $notebooksFolder = "..\."
     $notebookFiles = Get-ChildItem -Path $notebooksFolder -Filter *.ipynb
     Upload-NotebookFiles -NotebookFiles $notebookFiles -ExistingItems $existingItems -FabricCreateUrl $fabricCreateUrl -Headers $headers
 
