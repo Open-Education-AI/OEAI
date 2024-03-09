@@ -1,4 +1,45 @@
 
+function Grant-KeyVaultPermission {
+    param(
+        [string]$KeyVaultName,
+        [string]$UserEmail,
+        [string[]]$Permissions
+    )
+
+    # Connect to Azure account
+    Connect-AzAccount
+
+    # Get the Key Vault object
+    $keyVault = Get-AzKeyVault -VaultName $KeyVaultName
+
+    # Get the Object ID of the user
+    $userId = (Get-AzADUser -UserPrincipalName $UserEmail).Id
+
+    # Grant access policy based on permission
+    # Grant access policy based on permissions array
+    $accessPermissions = @()
+    foreach ($permission in $Permissions) {
+        switch ($permission) {
+            "get" {
+                $accessPermissions += "get"
+            }
+            "set" {
+                $accessPermissions += "set"
+            }
+            "list" {
+                $accessPermissions += "list"
+            }
+            default {
+                Write-Host "Invalid permission: $permission"
+            }
+        }
+    }
+
+    # Assign access policy
+   az keyvault set-policy --name $KeyVaultName --object-id $userId --secret-permissions $accessPermissions
+}
+
+
 function Print-Hashtableparam(
         [Parameter(Mandatory = $true)]
         [System.Collections.Hashtable]$myHashtable){
@@ -94,12 +135,19 @@ function Configure-OEAI {
 
     Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
     Write-Host "Please check if you are administrator of fabric capacity, go to capacity in azure and click on Capacity Administrators"
-
+    $storageAccountName = "openeducationanalyticsstorageacc"
+    $containerName = "mycontainer"
     $azAccountsModule = Get-Module -Name Az.Accounts -ListAvailable
 
     if (-not $azAccountsModule) {
         Install-Module Az.Accounts -Scope CurrentUser
     }
+
+    $azureADModule = Get-Module -Name AzureAD -ListAvailable
+    if (-not $azureADModule) {
+        Install-Module AzureAD -Scope CurrentUser -Force -AllowClobber
+    }
+    Import-Module -Name AzureAD
 
     $powerBIModule = Get-Module -Name MicrosoftPowerBIMgmt -ListAvailable
     if (-not $powerBIModule) {
@@ -121,6 +169,9 @@ function Configure-OEAI {
     $appId = $powerbiEmbeddedEntraId
 
     az keyvault set-policy --name 'kv-oea-oeai' --resource-group $resourceGroupName --object-id $appId --secret-permissions get list
+
+    $user = Get-AzAccessToken
+     Grant-KeyVaultPermission -KeyVaultName "kv-oea-oeai" -UserEmail $user.UserId -Permission @("get","set","list")
 
     git clone https://github.com/Jojobit/fabtools.git
 
@@ -158,11 +209,10 @@ function Configure-OEAI {
 
     Write-Host $existingItems | Format-Table -AutoSize
 
-    $lakeHouseInstance = $existingItems | Where-Object { $_.DisplayName -eq 'oealkhouse' }
-    Write-Host "value of $($lakeHouseInstance)"
+    $lakeHouseInstance = $existingItems | Where-Object { $_.DisplayName -eq 'oealkhouse' -and $_.Type -eq 'Lakehouse' }
     if ($lakeHouseInstance) {
-        Write-Host "oealkhouse is already present $($lakeHouseInstance)"
-        Print-ObjectProperties $lakeHouseInstance
+        Write-Host "oealkhouse is already present $($lakeHouseInstance.Id)"
+        #Print-ObjectProperties $lakeHouseInstance
     }
     else {
         $body = @{
@@ -172,8 +222,13 @@ function Configure-OEAI {
 
         $response = Invoke-RestMethod -Uri $fabricCreateUrl -Method Post -Body $body -Headers $headers
         write-Host "Lakehouse is created"
-        Print-ObjectProperties $response
+        $lakeHouseInstance = $existingItems | Where-Object { $_.DisplayName -eq 'oealkhouse' -and $_.Type -eq 'Lakehouse' }
     }
+
+    #GET https://api.fabric.microsoft.com/v1/workspaces/{workspaceId}/lakehouses/{lakehouseId}
+    $fabricGetUrl = "https://api.fabric.microsoft.com/v1/workspaces/$($WorkspaceId)/lakehouses/$($lakeHouseInstance.Id)";
+    $response = Invoke-RestMethod -Uri $fabricGetUrl -Method Get -Headers $headers
+    $response
 
     $notebooksFolder = "..\modules\wonde\."
     $notebookFiles = Get-ChildItem -Path $notebooksFolder -Filter *.ipynb
@@ -184,4 +239,33 @@ function Configure-OEAI {
     $notebookFiles = Get-ChildItem -Path $notebooksFolder -Filter *.ipynb
     Upload-NotebookFiles -NotebookFiles $notebookFiles -ExistingItems $existingItems -FabricCreateUrl $fabricCreateUrl -Headers $headers
 
+    
+# Create storage account
+New-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $storageAccountName -SkuName Standard_LRS -Kind StorageV2 -Location "UK South"
+
+# Get storage account connection string
+$storageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -AccountName $storageAccountName).Value[0]
+$storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$storageAccountKey;EndpointSuffix=core.windows.net"
+
+# Add connection string to key vault
+$secretValue = ConvertTo-SecureString -String $storageConnectionString -AsPlainText -Force
+Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $keyVaultSecretName -SecretValue $secretValue
+
+# Create container
+$ctx = New-AzStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey
+New-AzStorageContainer -Name $containerName -Context $ctx
+
+
+
+
+$upgradeTask = Invoke-AzStorageAccountHierarchicalNamespaceUpgrade `
+    -ResourceGroupName $resourceGroupName `
+    -Name $storageAccountName `
+    -RequestType Upgrade `
+    -Force `
+    -AsJob
+
+$upgradeTask | Wait-Job
+
+$status =(Get-AzStorageAccount -Name $storageAccountName -ResourceGroupName $resourceGroupName ).EnableHierarchicalNamespace
 }
