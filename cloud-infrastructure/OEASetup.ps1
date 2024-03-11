@@ -130,13 +130,14 @@ function Configure-OEAI {
         [string]$CapacityName,
         [string]$subscriptionName,
         [string]$resourceGroupName,
-        [string]$powerbiEmbeddedEntraId
+        [string]$powerbiEmbeddedEntraId,
+        [string]$prefix = "oeai"
     )
 
     Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
     Write-Host "Please check if you are administrator of fabric capacity, go to capacity in azure and click on Capacity Administrators"
-    $storageAccountName = "openeducationanalyticsstorageacc"
-    $containerName = "mycontainer"
+    $storageAccountName = "${prefix}stoacc"
+    $containerName = "data-model"
     $azAccountsModule = Get-Module -Name Az.Accounts -ListAvailable
 
     if (-not $azAccountsModule) {
@@ -148,6 +149,12 @@ function Configure-OEAI {
         Install-Module AzureAD -Scope CurrentUser -Force -AllowClobber
     }
     Import-Module -Name AzureAD
+
+    $azureStorageModule = Get-Module -Name Az.Storage -ListAvailable
+    if (-not $azureStorageModule) {
+        Install-Module Az.Storage -Scope CurrentUser -Force -AllowClobber
+    }
+    Import-Module -Name Az.Storage
 
     $powerBIModule = Get-Module -Name MicrosoftPowerBIMgmt -ListAvailable
     if (-not $powerBIModule) {
@@ -163,6 +170,23 @@ function Configure-OEAI {
     }
 
     az account set --subscription $subscriptionName
+    Set-AzContext -subscription $subscriptionName
+    $resourceGroupName = "${prefix}${resourceGroupName}"
+    New-AzResourceGroup -Name $resourceGroupName -Location "uksouth"
+
+    #create new user
+    $userContext = Get-AzContext
+    $username = $userContext.Account.Id
+    $usernameParts = $username -split "@"
+    $domain = $usernameParts[1]
+
+    $newUser = "oeai@${domain}" 
+
+    $password = ConvertTo-SecureString "1qaz@WSX3edc" -AsPlainText -Force
+
+    New-AzADUser -DisplayName "Open Education Analytics" -Password $password -AccountEnabled $true -MailNickname "OEAISys" -UserPrincipalName $newUser
+    New-AzRoleAssignment -SignInName $newUser -RoleDefinitionName "Contributor" -ResourceGroupName $resourceGroupName
+
 
     az keyvault create --name 'kv-oea-oeai' --resource-group $resourceGroupName --location "uksouth"
 
@@ -193,6 +217,8 @@ function Configure-OEAI {
         $workspaceName = "Open Education AI"
         $workspace = New-PowerBIWorkspace -Name $workspaceName
         $WorkspaceId = $workspace.Id
+
+        Add-PowerBIWorkspaceUser -Scope Organization -Id $WorkspaceId -UserEmailAddress $newUser -AccessRight Contributor
     }
 
     $response = Invoke-RestMethod -Uri "https://api.fabric.microsoft.com/v1/capacities" -Method GET -Headers $headers
@@ -209,26 +235,41 @@ function Configure-OEAI {
 
     Write-Host $existingItems | Format-Table -AutoSize
 
-    $lakeHouseInstance = $existingItems | Where-Object { $_.DisplayName -eq 'oealkhouse' -and $_.Type -eq 'Lakehouse' }
+    $lakeHouseInstance = $existingItems | Where-Object { $_.DisplayName -eq "${prefix}oealkhouse" -and $_.Type -eq 'Lakehouse' }
     if ($lakeHouseInstance) {
         Write-Host "oealkhouse is already present $($lakeHouseInstance.Id)"
         #Print-ObjectProperties $lakeHouseInstance
     }
     else {
         $body = @{
-            displayName = "oealkhouse"
+            displayName = "${prefix}oealkhouse"
             type = "Lakehouse"
         } | ConvertTo-Json
 
         $response = Invoke-RestMethod -Uri $fabricCreateUrl -Method Post -Body $body -Headers $headers
         write-Host "Lakehouse is created"
-        $lakeHouseInstance = $existingItems | Where-Object { $_.DisplayName -eq 'oealkhouse' -and $_.Type -eq 'Lakehouse' }
+        $lakeHouseInstance = $existingItems | Where-Object { $_.DisplayName -eq "${prefix}oealkhouse" -and $_.Type -eq 'Lakehouse' }
     }
 
     #GET https://api.fabric.microsoft.com/v1/workspaces/{workspaceId}/lakehouses/{lakehouseId}
     $fabricGetUrl = "https://api.fabric.microsoft.com/v1/workspaces/$($WorkspaceId)/lakehouses/$($lakeHouseInstance.Id)";
     $response = Invoke-RestMethod -Uri $fabricGetUrl -Method Get -Headers $headers
-    $response
+    $filePath= $response.properties.oneLakeFilesPath
+    $bronzePath = "${filePath}/Files/Bronze"
+    $silverPath = "${filePath}/Files/Silver"
+    $goldPath = "${filePath}/Files/Gold"
+    $secretValue = ConvertTo-SecureString -String $bronzePath -AsPlainText -Force
+    $keyVaultSecretName = "wonde-bronze"
+    Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $keyVaultSecretName -SecretValue $secretValue
+
+    $secretValue = ConvertTo-SecureString -String $silverPath -AsPlainText -Force
+    $keyVaultSecretName = "wonde-silver"
+    Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $keyVaultSecretName -SecretValue $secretValue
+
+     $secretValue = ConvertTo-SecureString -String $goldPath -AsPlainText -Force
+    $keyVaultSecretName = "wonde-gold"
+    Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $keyVaultSecretName -SecretValue $secretValue
+
 
     $notebooksFolder = "..\modules\wonde\."
     $notebookFiles = Get-ChildItem -Path $notebooksFolder -Filter *.ipynb
@@ -248,7 +289,12 @@ $storageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupN
 $storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$storageAccountKey;EndpointSuffix=core.windows.net"
 
 # Add connection string to key vault
-$secretValue = ConvertTo-SecureString -String $storageConnectionString -AsPlainText -Force
+$secretValue = ConvertTo-SecureString -String $storageAccountKey -AsPlainText -Force
+$keyVaultSecretName = "storage-accesskey"
+Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $keyVaultSecretName -SecretValue $secretValue
+
+$keyVaultSecretName = "storage-account"
+$secretValue = ConvertTo-SecureString -String $storageAccountName -AsPlainText -Force
 Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $keyVaultSecretName -SecretValue $secretValue
 
 # Create container
