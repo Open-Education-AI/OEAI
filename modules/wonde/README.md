@@ -28,16 +28,17 @@ Limitations:
     * students_education
     * students_extended
     * attendance-summaries
+    * groups
+    * behaviour
+    * achievements
+    * exclusions
+    * assessment (aspects, results, resultsets)
 
 Planned work:
 
 Currently extending for the following endpoints:
-* groups
 * classes
-* behaviour
-* achievements
-* exclusions
-* assessment (aspects, results, templates, marksheets, resultsets)
+* assessment (templates, marksheets)
 * subjects
 * periods
 * employees
@@ -46,7 +47,6 @@ Currently extending for the following endpoints:
 * detention-types
 * attendance/detention
 
-Error logging: we are in the process of converting all Prints to the error log function (Bronze completed, Silver and Gold to do)
 
 As part of the planned MIS Insight Package we also have a Power BI report that consumes the last_run, audit and error log files that this module produces - thereby providing telemetry on every Module run.
 
