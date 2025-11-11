@@ -1,0 +1,88 @@
+table dim_ExclusionReason
+	lineageTag: 043c3211-813e-4278-a88a-c2b24c2d5d4b
+
+	column external_id
+		dataType: string
+		lineageTag: 4f19e374-04bb-4986-a0a9-f6a17fa8a2c1
+		summarizeBy: none
+		sourceColumn: external_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column school_id
+		dataType: string
+		lineageTag: 21133b93-5fec-4588-9661-335f92538b77
+		summarizeBy: none
+		sourceColumn: school_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Reason_Code
+		dataType: string
+		lineageTag: 6f84ab38-bcec-4645-aa68-5143921dc1e9
+		summarizeBy: none
+		sourceColumn: Reason_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Main
+		dataType: int64
+		formatString: 0
+		lineageTag: 79915cae-ba71-435d-a2e1-c3dd1cd3436a
+		summarizeBy: sum
+		sourceColumn: Is_Main
+
+		annotation SummarizationSetBy = Automatic
+
+	column unique_key
+		dataType: string
+		lineageTag: bdaff919-c3ea-4343-924a-9ecafd696db9
+		summarizeBy: none
+		sourceColumn: unique_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column exclusionreasonkey
+		dataType: string
+		lineageTag: f662e104-f799-4c70-80ea-e279b0b8a428
+		summarizeBy: none
+		sourceColumn: exclusionreasonkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column organisationkey
+		dataType: string
+		lineageTag: 8ed6dd31-32c8-42a1-98ec-fce5d0df7c69
+		summarizeBy: none
+		sourceColumn: organisationkey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_ExclusionReason = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/dim_ExclusionReason",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

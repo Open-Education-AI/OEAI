@@ -1,0 +1,89 @@
+table dim_StudentAcademicYearGroup
+	lineageTag: f2643adb-e03c-412a-b62a-b3cb2bb92b1d
+
+	column studentkey
+		dataType: string
+		lineageTag: 1c98c30a-c6d4-4182-8ab2-f81aad9fa2f7
+		summarizeBy: none
+		sourceColumn: studentkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Academic_Year
+		dataType: string
+		lineageTag: cd887e1d-3c2f-42a9-890b-6613880d140d
+		summarizeBy: none
+		sourceColumn: Academic_Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year_Group
+		dataType: string
+		lineageTag: eb3fda5b-eaff-4ea6-9513-c6bffa4143bb
+		summarizeBy: none
+		sourceColumn: Year_Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column std_year_group
+		dataType: string
+		lineageTag: 86ba33cd-844c-4f48-abbd-24770b0c7d6b
+		summarizeBy: none
+		sourceColumn: std_year_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentacademicyeargroupkey
+		dataType: int64
+		formatString: 0
+		lineageTag: 0583933b-794e-407f-a9ea-6713a891118b
+		summarizeBy: none
+		sourceColumn: studentacademicyeargroupkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompulsorySchoolAge
+		dataType: int64
+		formatString: 0
+		lineageTag: 6314918b-4e48-4e62-a086-c976e23507fb
+		summarizeBy: sum
+		sourceColumn: CompulsorySchoolAge
+
+		annotation SummarizationSetBy = Automatic
+
+	column OnRollOnCensus
+		dataType: string
+		lineageTag: 8f14092a-8aa3-4fce-84cf-93366e258076
+		summarizeBy: none
+		sourceColumn: OnRollOnCensus
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_StudentAcademicYearGroup = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/dim_StudentAcademicYearGroup",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,465 @@
+// ************************************************************************************
+//  Tables required for the OEAI Gold Layer
+// ************************************************************************************
+
+// **********************************************************
+//  DIMENSION TABLES
+// **********************************************************
+
+Table dim_Date [headercolor: #011B4E] {
+  DateKey                              integer       [primary key]
+  FullDate                             varchar
+  MonthNumberOfYear                    integer
+  MonthNumberOfQuarter                 integer
+  ISOYearAndWeekNumber                 varchar
+  ISOWeekNumberOfYear                  integer
+  SSWeekNumberOfYear                   integer
+  ISOWeekNumberOfQuarter_454_Pattern   integer
+  SSWeekNumberOfQuarter_454_Pattern    integer
+  SSWeekNumberOfMonth                  integer
+  DayNumberOfYear                      integer
+  DaysSince1900                        integer
+  DayNumberOfFiscalYear                integer
+  DayNumberOfQuarter                   integer
+  DayNumberOfMonth                     integer
+  DayNumberOfWeek_Sun_Start            integer
+  MonthName                            varchar
+  MonthNameAbbreviation                varchar
+  DayName                              varchar
+  DayNameAbbreviation                  varchar
+  DayNumberOfWeek                      integer
+  AcademicYear                         varchar
+  AcademicMonthNumber                  integer
+  AcademicWeekNumberOfYear             integer
+  TermSession                          varchar
+  CalendarYear                         integer
+  CalendarYearMonth                    varchar
+  CalendarYearQtr                      varchar
+  CalendarSemester                     integer
+  CalendarQuarter                      integer
+  CalendarWeekNumber                   integer
+  FiscalYear                           integer
+  FiscalMonth                          integer
+  FiscalQuarter                        integer
+  FiscalYearMonth                      varchar
+  FiscalYearQtr                        varchar
+  QuarterNumber                        integer
+  YYYYMMDD                             integer
+  MMDDYYYY                             varchar
+  MonDDYYYY                            varchar
+  IsCurrentYear                        integer
+  IsLastDayOfMonth                     varchar
+  IsWeekday                            varchar
+  IsWeekend                            varchar
+  IsWorkday                            varchar
+  IsFederalHoliday                     varchar
+  IsBankHoliday                        varchar
+  IsCompanyHoliday                     varchar
+  AcademicYearPeriod                   varchar
+  WeekStartDate                        varchar
+  WeekCommencing_DDMMYYYY              varchar
+  WeekCommencingName                   varchar
+  Year_Month_Number                    integer
+  DayNumberofAcademicYear              integer
+}
+
+Table dim_ExclusionReason [headercolor: #011B4E] {
+  exclusionreasonkey   varchar       [primary key]
+  external_id          varchar
+  school_id            varchar
+  Reason_Code          varchar
+  Is_Main              integer
+  unique_key           varchar
+  organisationkey      varchar
+}
+
+Table dim_Group [headercolor: #011B4E] {
+  groupkey         varchar       [primary key]
+  external_id      varchar
+  Group_Code       integer
+  Group_Name       varchar
+  Group_Description varchar
+  school_id        varchar
+  organisationkey  varchar
+  Group_Type       varchar
+  Group_ID         varchar
+  unique_key       varchar
+}
+
+Table dim_GroupMembership [headercolor: #011B4E] {
+  groupmembershipkey varchar     [primary key]
+  external_id        varchar
+  unique_student_id  varchar
+  student_id         integer
+  group_unique_id    varchar
+  Start_Date         date
+  End_Date           date
+  school_id          varchar
+  student_mis_id     varchar
+  Student_Date       varchar
+  groupkey           varchar
+  organisationkey    varchar
+  studentkey         varchar
+  Group_Name         varchar
+  Group_Type         varchar
+  unique_key         varchar
+  last_updated       varchar
+}
+
+Table dim_Organisation [headercolor: #011B4E] {
+  organisationkey    varchar       [primary key]
+  external_id        varchar
+  Organisation_Name  varchar
+  Establishment_Number varchar
+  URN                varchar
+  LA_Code            varchar
+  Organisation_Type  varchar
+  unique_key         varchar
+  addresskey         varchar
+  UKPRN              varchar
+  Organisation_Status varchar
+  last_updated       varchar
+}
+
+Table dim_SENDNeed [headercolor: #011B4E] {
+  sendneedkey        varchar       [primary key]
+  external_id        varchar
+  student_id         integer
+  SENDNeed_Type      varchar
+  SENDNeed_Description varchar
+  SENDNeed_Ranking   integer
+  Start_Date         date
+  End_Date           date
+  school_id          varchar
+  unique_key         varchar
+  organisationkey    varchar
+  studentkey         varchar
+}
+
+Table dim_Staff [headercolor: #011B4E] {
+  staffkey                  varchar   [primary key]
+  staff_id                  integer
+  Legal_Forename            varchar
+  Legal_Surname             varchar
+  Forename                  varchar
+  Surname                   varchar
+  Date_Of_Birth             date
+  Title                     varchar
+  Legacy_System_ID          varchar
+  Sex                       varchar
+  Gender                    varchar
+  Continuous_Service_Start_Date datetime
+  QTS                       boolean
+  EYTS                      boolean
+  QTLS                      boolean
+  HLTA                      boolean
+  school_id                 varchar
+  organisationkey           varchar
+  unique_key                varchar
+  Is_Teacher                boolean
+}
+
+Table dim_Student [headercolor: #011B4E] {
+  studentkey      varchar       [primary key]
+  student_id      varchar
+  school_id       varchar
+  unique_key      varchar
+  external_id     varchar
+  Forename        varchar
+  Legal_Forename varchar
+  Legal_Surname   varchar
+  Surname         varchar
+  Middle_Names    varchar
+  Sex             varchar
+  Gender          varchar
+  Date_Of_Birth   varchar
+  UPN             varchar
+  updated_at      varchar
+  organisationkey varchar
+}
+
+
+Table dim_StudentAcademicYearGroup [headercolor: #011B4E] {
+  studentacademicyeargroupkey integer [primary key]
+  studentkey        varchar
+  Academic_Year     varchar
+  Year_Group        varchar
+  std_year_group    varchar
+  CompulsorySchoolAge integer
+  Phase             varchar
+  OnRollOnCensus    varchar
+}
+
+Table dim_StudentCalculated [headercolor: #011B4E] {
+  studentkey          varchar       [primary key]
+  is_sen              integer
+  Is_SEN_String       varchar
+  Is_PP_String        varchar
+  Is_EAL_String       varchar
+  is_summer_born      integer
+  Is_Summer_Born_String varchar
+  Is_Current_String   varchar
+  Full_Name           varchar
+}
+
+
+
+Table dim_StudentExtended [headercolor: #011B4E] {
+  studentextendedkey    varchar       [primary key]
+  student_id            varchar
+  school_id             varchar
+  unique_key            varchar
+  Ethnicity             varchar
+  Ethnicity_Code        varchar
+  Ever_In_Care          varchar
+  First_Language        varchar
+  Free_School_Meals     varchar
+  Free_School_Meals_6   varchar
+  Gifted_And_Talented_Status varchar
+  In_LEA_Care           varchar
+  Pupil_Premium_Indicator varchar
+  Pupil_Premium_Eligible varchar
+  SEN_Status            varchar
+  English_As_Additional_Language varchar
+  English_As_Additional_Language_Status varchar
+  Child_Protection_Plan varchar
+  Child_In_Need         varchar
+  Enrolment_Status      varchar
+  Year_Group            varchar
+  Current_NC_Year       varchar
+  Admission_Date        varchar
+  Leaving_Date          varchar
+  Is_Current            varchar
+  Postcode              varchar
+  Primary_SEND_Need     varchar
+  IDACI_Score           double
+  IDACI_Rank            integer
+  IDACI_Decile          integer
+  LSOA_Code             varchar
+  organisationkey       varchar
+  studentkey            varchar
+}
+
+Table dim_StudentExtendedAcademicYear [headercolor: #011B4E] {
+  studentextendedacademicyearkey bigint   [primary key]
+  studentkey               varchar
+  Academic_Year            varchar
+  school_id                varchar
+  Sex                      varchar
+  Year_Group               varchar
+  Child_Protection_Plan     integer
+  Disadvantaged             integer
+  Free_School_Meals         integer
+  Free_School_Meals_6       integer
+  Gifted_And_Talented_Status integer
+  In_LEA_Care               integer
+  In_Year_Admission         integer
+  Pupil_Premium_Indicator   integer
+  SEN_Status                integer
+  Service_Child_Indicator   integer
+  Year_Group_Join           varchar
+  std_Year_Group            varchar
+  Phase                     varchar
+  Cohort                    varchar
+  Full_Name                 varchar
+  Is_EAL_String             varchar
+  Is_PP_String              varchar
+  Is_SEN_String             varchar
+  Ethnicity                 varchar
+  Is_Current                varchar
+  Date_of_Birth             varchar
+  Compulsory_School_Age_Calc integer
+}
+
+// **********************************************************
+//  FACT TABLES
+// **********************************************************
+
+Table fact_Achievement {
+  studentkey                  varchar
+  Academic_Year               varchar
+  Type                        varchar
+  Points                      integer
+  Achievement_Date            date
+  studentacademicyeargroupkey integer
+}
+
+Table fact_Attainment {
+  attainmentkey               varchar      [primary key]
+  studentkey                  varchar
+  Academic_Year               varchar
+  QAN                         varchar
+  Assessment_Name             varchar
+  Assessment_Code             varchar
+  Assessment_Date             date
+  Result                      varchar
+  Result_Value                varchar
+  Comment                     varchar
+  Period_Name                 varchar
+  unique_key                  varchar
+  studentacademicyeargroupkey integer
+}
+
+Table fact_AttendanceSession {
+  studentacademicyeargroupkey integer
+  Academic_Year               varchar
+  studentkey                  varchar
+  Mark                        varchar
+  Session                     varchar
+  Date                        date
+  is_auth_abs                 integer
+  is_unauth_abs               integer
+  is_possible                 integer
+  is_present                  integer
+  is_aea                      integer
+  is_late_L                   integer
+  is_late_U                   integer
+  is_missing                  integer
+  is_nr                       integer
+  is_attend                   integer
+  Is_10_in_10                 integer
+  3_days_abs                  integer
+  abs_after_exclusion         integer
+  cumulative_present          bigint
+  cumulative_possible         bigint
+  attendance_ratio            double
+  is_PA                       integer
+  is_SA                       integer
+}
+
+Table fact_AttendanceSummary {
+  attendancesummarykey        varchar      [primary key]
+  studentkey                  varchar
+  Academic_Year               varchar
+  unique_student_id           varchar
+  Present                     bigint
+  Authorised_Absences         bigint
+  Unauthorised_Absences       bigint
+  Possible_Marks              bigint
+  Approved_Educational_Activity bigint
+  Late_Before_Registration     bigint
+  Late_After_Registration      bigint
+  unique_key                  varchar
+  student_id                  integer
+  school_id                   varchar
+  Attendance_Mark_String      varchar
+  Percentage_Attendance       decimal(10,4)
+  Percentage_Authorised_Absence decimal(10,4)
+  Percentage_Unauthorised_Absence decimal(10,4)
+  external_id                 varchar
+  last_updated                varchar
+  Unexplained_Absences        integer
+  Missing_Marks               integer
+  Percentage_Missing          decimal(10,4)
+  Attendance_Not_Required     integer
+  Percentage_Unexplained_Absence decimal(10,0)
+  Is_Persistently_Absent      integer
+  Is_Severely_Absent          integer
+  under_50                    integer
+  50_to_70                    integer
+  70_to_80                    integer
+  80_to_90                    integer
+  90_to_92                    integer
+  92_to_95                    integer
+  95_to_98                    integer
+  above_98                    integer
+  Attendance_Bin              varchar
+  organisationkey             varchar
+  studentacademicyeargroupkey integer
+}
+
+Table fact_Behaviour {
+  studentkey                  varchar
+  Academic_Year               varchar
+  datekey                     varchar
+  Type                        varchar
+  Action                      varchar
+  Points                      integer
+  Incident_Date               date
+  studentacademicyeargroupkey integer
+}
+
+Table fact_Exclusion {
+  exclusionkey                varchar       [primary key]
+  studentkey                  varchar
+  Academic_Year               varchar
+  student_id                  varchar
+  Start_Date                  date
+  End_Date                    varchar
+  Discipline_Commitee_Date    varchar
+  external_id                 varchar
+  school_id                   varchar
+  Reason                      varchar
+  Reason_Code                 varchar
+  Days                        varchar
+  Start_Session               varchar
+  End_Session                 varchar
+  Comments                    varchar
+  Type                        varchar
+  Type_Code                   varchar
+  Sessions                    varchar
+  Term                        varchar
+  Agencies_Involved           varchar
+  Appeal_Received             varchar
+  Appeal_Result               varchar
+  Appeal_Result_Date          varchar
+  last_updated                varchar
+  unique_key                  varchar
+  organisationkey             varchar
+  studentacademicyeargroupkey integer
+}
+
+Table fact_StaffAbsence {
+  staffabsencekey             varchar      [primary key]
+  external_id                 varchar
+  staff_id                    integer
+  Days                        float
+  Hours                       float
+  Start_Date                  datetime
+  End_Date                    datetime
+  Type                        varchar
+  Is_Paid_Leave               boolean
+  Is_Paid_Holiday             boolean
+  Is_Paid_Maternity           boolean
+  Is_Paid_Paternity           boolean
+  Is_Authorised_Absence       boolean
+  Sickness_Category           varchar
+  school_id                   varchar
+  Note                        varchar
+  Authorised_Pay_Rate         varchar
+  unique_key                  varchar
+  organisationkey             varchar
+  staffkey                    varchar
+}
+
+
+
+// **********************************************************
+//  RELATIONSHIPS
+// **********************************************************
+
+Ref: dim_GroupMembership.groupkey              > dim_Group.groupkey
+Ref: dim_GroupMembership.studentkey            > dim_Student.studentkey
+Ref: dim_SENDNeed.studentkey                   > dim_Student.studentkey
+Ref: dim_Staff.organisationkey                 > dim_Organisation.organisationkey
+Ref: dim_Student.organisationkey               > dim_Organisation.organisationkey
+Ref: dim_StudentAcademicYearGroup.studentkey                    > dim_Student.studentkey
+Ref: dim_StudentExtended.studentkey            > dim_Student.studentkey
+Ref: dim_StudentExtendedAcademicYear.studentkey                > dim_Student.studentkey
+Ref: dim_StudentCalculated.studentkey          > dim_Student.studentkey
+Ref: fact_Achievement.studentacademicyeargroupkey > dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+Ref: fact_Attainment.studentacademicyeargroupkey     > dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+Ref: fact_AttendanceSession.studentacademicyeargroupkey > dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+Ref: fact_AttendanceSummary.studentacademicyeargroupkey > dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+Ref: fact_Behaviour.studentacademicyeargroupkey > dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+Ref: fact_Exclusion.studentacademicyeargroupkey > dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+Ref: fact_Exclusion.external_id < dim_ExclusionReason.external_id
+Ref: fact_StaffAbsence.staffkey               > dim_Staff.staffkey
+Ref: dim_StudentAcademicYearGroup.Academic_Year <> dim_Date.AcademicYear
+Ref: fact_Achievement.Achievement_Date > dim_Date.FullDate
+Ref: fact_Attainment.Assessment_Date > dim_Date.FullDate
+Ref: fact_AttendanceSession.Date > dim_Date.FullDate
+Ref: fact_Behaviour.Incident_Date > dim_Date.FullDate
+Ref: fact_Exclusion.Start_Date > dim_Date.FullDate
+Ref: fact_StaffAbsence.Start_Date > dim_Date.FullDate
+

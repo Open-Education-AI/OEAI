@@ -1,0 +1,529 @@
+table dim_Date
+	lineageTag: eee30e03-dd1b-4856-bdcc-98eba6dc418b
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 44969f00-500a-480d-bf4d-a478736cc17f
+		summarizeBy: count
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FullDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ff2c8e78-f561-4d12-9e8e-fc8793a79f2c
+		summarizeBy: none
+		sourceColumn: FullDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MonthNumberOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 2c7f9da7-b5eb-4bfb-bfd9-b3b1f965df6e
+		summarizeBy: sum
+		sourceColumn: MonthNumberOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumberOfQuarter
+		dataType: int64
+		formatString: 0
+		lineageTag: ec38a9ec-782c-4937-98e2-79be4c7a4b61
+		summarizeBy: sum
+		sourceColumn: MonthNumberOfQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISOYearAndWeekNumber
+		dataType: string
+		lineageTag: b57c170f-3058-4522-9afb-98249df7ba96
+		summarizeBy: none
+		sourceColumn: ISOYearAndWeekNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISOWeekNumberOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: d5ad21e9-61d8-4766-8665-e78e03189a88
+		summarizeBy: sum
+		sourceColumn: ISOWeekNumberOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column SSWeekNumberOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: af9f2705-214b-44e3-b659-bd10f49ab042
+		summarizeBy: sum
+		sourceColumn: SSWeekNumberOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISOWeekNumberOfQuarter_454_Pattern
+		dataType: int64
+		formatString: 0
+		lineageTag: c369f699-86a4-4153-8825-4364872a600c
+		summarizeBy: sum
+		sourceColumn: ISOWeekNumberOfQuarter_454_Pattern
+
+		annotation SummarizationSetBy = Automatic
+
+	column SSWeekNumberOfQuarter_454_Pattern
+		dataType: int64
+		formatString: 0
+		lineageTag: d367bcbc-7091-41ba-a884-7cfc7dc8bd06
+		summarizeBy: sum
+		sourceColumn: SSWeekNumberOfQuarter_454_Pattern
+
+		annotation SummarizationSetBy = Automatic
+
+	column SSWeekNumberOfMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: a11829bc-ef3b-4f7c-a2bd-72b897cc5cdb
+		summarizeBy: sum
+		sourceColumn: SSWeekNumberOfMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayNumberOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 5ea64c4d-92be-4780-980d-1dd949836ede
+		summarizeBy: sum
+		sourceColumn: DayNumberOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysSince1900
+		dataType: int64
+		formatString: 0
+		lineageTag: b65c233b-2ce8-4cc5-be85-cb904e418a9f
+		summarizeBy: sum
+		sourceColumn: DaysSince1900
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayNumberOfFiscalYear
+		dataType: int64
+		formatString: 0
+		lineageTag: e4a873d5-d2af-443f-a847-5a8db5092506
+		summarizeBy: sum
+		sourceColumn: DayNumberOfFiscalYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayNumberOfQuarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 501b9aef-f47e-4336-be01-fccdb2905c1e
+		summarizeBy: sum
+		sourceColumn: DayNumberOfQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayNumberOfMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: 1bfefa0e-6ccb-44bb-a34d-006814fe9606
+		summarizeBy: sum
+		sourceColumn: DayNumberOfMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayNumberOfWeek_Sun_Start
+		dataType: int64
+		formatString: 0
+		lineageTag: 5971b682-ac2e-48a4-ba2f-9e550d78dcfc
+		summarizeBy: sum
+		sourceColumn: DayNumberOfWeek_Sun_Start
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 7fc72b01-1d4d-4228-a4da-79cc305b53bb
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNameAbbreviation
+		dataType: string
+		lineageTag: a954a4c0-80b4-4e2e-8210-df627caf0eaa
+		summarizeBy: none
+		sourceColumn: MonthNameAbbreviation
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		dataType: string
+		lineageTag: d7d4e818-9d57-45ea-bbc1-e388970e2092
+		summarizeBy: none
+		sourceColumn: DayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayNameAbbreviation
+		dataType: string
+		lineageTag: 3ac975fa-3806-4cbd-9a66-ad4174b4e744
+		summarizeBy: none
+		sourceColumn: DayNameAbbreviation
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayNumberOfWeek
+		dataType: int64
+		formatString: 0
+		lineageTag: d93fbac3-2cd2-4e13-8651-61816c174185
+		summarizeBy: sum
+		sourceColumn: DayNumberOfWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column AcademicYear
+		dataType: string
+		lineageTag: 6bf657d4-66e6-4222-a111-c865b8c4e02c
+		summarizeBy: none
+		sourceColumn: AcademicYear
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column AcademicMonthNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 14f27e19-a1ed-442f-9100-3689ac7b32f5
+		summarizeBy: sum
+		sourceColumn: AcademicMonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column AcademicWeekNumberOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: a316a7e0-2e72-402a-b5ee-736935454a7c
+		summarizeBy: sum
+		sourceColumn: AcademicWeekNumberOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column TermSession
+		dataType: string
+		lineageTag: b6eadfc2-2f82-42b0-b718-a8c1c0e5de30
+		summarizeBy: none
+		sourceColumn: TermSession
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 8cc8f97b-efc9-4579-a274-7c2aa298b752
+		summarizeBy: sum
+		sourceColumn: CalendarYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarYearMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3f0ffadf-4f3a-4b1c-85db-fca0aa97ba03
+		summarizeBy: none
+		sourceColumn: CalendarYearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CalendarYearQtr
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 76a63443-2d14-4498-847c-546d0aa7fe5b
+		summarizeBy: none
+		sourceColumn: CalendarYearQtr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CalendarSemester
+		dataType: int64
+		formatString: 0
+		lineageTag: d5264848-523a-4c1a-867c-d5de397ee0f2
+		summarizeBy: sum
+		sourceColumn: CalendarSemester
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarQuarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 25f14245-6674-4aa5-9511-e26a89dfc2ba
+		summarizeBy: sum
+		sourceColumn: CalendarQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarWeekNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 5f53cd7d-d198-4e30-b448-38826363fec4
+		summarizeBy: sum
+		sourceColumn: CalendarWeekNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 71e186a1-1d4c-4fb7-b086-c100ea8d975c
+		summarizeBy: sum
+		sourceColumn: FiscalYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: 98407369-88e8-45ec-81a5-fc6d287eb593
+		summarizeBy: sum
+		sourceColumn: FiscalMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalQuarter
+		dataType: int64
+		formatString: 0
+		lineageTag: ae7cc21c-38c7-4932-b30f-df059335bc01
+		summarizeBy: sum
+		sourceColumn: FiscalQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalYearMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 97b58ebd-d100-419a-b467-2450b86cca36
+		summarizeBy: none
+		sourceColumn: FiscalYearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column FiscalYearQtr
+		dataType: string
+		lineageTag: 5bc3aef0-9217-4af7-937c-9d7d9e27d151
+		summarizeBy: none
+		sourceColumn: FiscalYearQtr
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ead168f-1f7b-4fab-b2de-bb7f072f879b
+		summarizeBy: sum
+		sourceColumn: QuarterNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column YYYYMMDD
+		dataType: int64
+		formatString: 0
+		lineageTag: c05c8210-7868-4a39-b8a4-ca30de6c61d7
+		summarizeBy: sum
+		sourceColumn: YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+	column MM/DD/YYYY
+		dataType: string
+		lineageTag: 3b3e50b6-0e31-4453-aee3-15153f1256a3
+		summarizeBy: none
+		sourceColumn: MM/DD/YYYY
+
+		annotation SummarizationSetBy = Automatic
+
+	column YYYY/MM/DD
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8d3338e2-a5b9-4010-8d20-884b30eb38ac
+		summarizeBy: none
+		sourceColumn: YYYY/MM/DD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column YYYY-MM-DD
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 36135d22-654e-42f6-bd3b-ebfdc2aa3409
+		summarizeBy: none
+		sourceColumn: YYYY-MM-DD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MonDDYYYY
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 15095869-4f01-4471-90a8-2d35aa3f3e00
+		summarizeBy: none
+		sourceColumn: MonDDYYYY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column IsCurrentYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 13d35878-aa34-4d01-afa8-b487aaacf6d8
+		summarizeBy: sum
+		sourceColumn: IsCurrentYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsLastDayOfMonth
+		dataType: string
+		lineageTag: 76c0e40f-0bf4-4420-98c8-d01d96fd4920
+		summarizeBy: none
+		sourceColumn: IsLastDayOfMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekday
+		dataType: string
+		lineageTag: 5baf2d39-59a0-45fd-a4b4-fafe1b7ac092
+		summarizeBy: none
+		sourceColumn: IsWeekday
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: string
+		lineageTag: c1ffce49-22aa-4667-869e-ac9ce426fa7c
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWorkday
+		dataType: string
+		lineageTag: 09f9acd3-665f-4932-8770-4b0e3415ed43
+		summarizeBy: none
+		sourceColumn: IsWorkday
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsFederalHoliday
+		dataType: string
+		lineageTag: f910887b-c225-4154-8368-062780ec48a0
+		summarizeBy: none
+		sourceColumn: IsFederalHoliday
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsBankHoliday
+		dataType: string
+		lineageTag: ea264d84-3490-4cd9-9ebf-54b8c73bd985
+		summarizeBy: none
+		sourceColumn: IsBankHoliday
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsCompanyHoliday
+		dataType: string
+		lineageTag: d9182e20-fed6-438e-b338-000f457ed604
+		summarizeBy: none
+		sourceColumn: IsCompanyHoliday
+
+		annotation SummarizationSetBy = Automatic
+
+	column AcademicYearPeriod
+		dataType: string
+		lineageTag: 36c519d0-3294-4972-8d92-11c63666752d
+		summarizeBy: none
+		sourceColumn: AcademicYearPeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekStartDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fe5bfab8-b97f-436e-bd03-3b17f139880e
+		summarizeBy: none
+		sourceColumn: WeekStartDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'WeekCommencing DD/MM/YYYY'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a5382bfa-c0cc-4725-b199-4aa6f4ff1c9c
+		summarizeBy: none
+		sourceColumn: WeekCommencing DD/MM/YYYY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column WeekCommencingName
+		dataType: string
+		lineageTag: 00c2a2ab-b752-4fcf-9a7d-039021bd918f
+		summarizeBy: none
+		sourceColumn: WeekCommencingName
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4337cecc-965f-418f-a836-e20d6c991e97
+		summarizeBy: sum
+		sourceColumn: Year Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayNumberofAcademicYear
+		dataType: int64
+		formatString: 0
+		lineageTag: c08ba403-b8bf-4b23-a243-9fb005266c4c
+		summarizeBy: sum
+		sourceColumn: DayNumberofAcademicYear
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_Date = m
+		mode: import
+		queryGroup: Reference
+		source =
+				let
+				    Source = AzureStorage.DataLake(Path_Reference & "/dim_Date.csv"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (30)", each #"Transform File (dim_Date)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (30)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (30)", Table.ColumnNames(#"Transform File (dim_Date)"(#"Sample File (dim_Date)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"DateKey", Int64.Type}, {"FullDate", type date}, {"MonthNumberOfYear", Int64.Type}, {"MonthNumberOfQuarter", Int64.Type}, {"ISOYearAndWeekNumber", type text}, {"ISOWeekNumberOfYear", Int64.Type}, {"SSWeekNumberOfYear", Int64.Type}, {"ISOWeekNumberOfQuarter_454_Pattern", Int64.Type}, {"SSWeekNumberOfQuarter_454_Pattern", Int64.Type}, {"SSWeekNumberOfMonth", Int64.Type}, {"DayNumberOfYear", Int64.Type}, {"DaysSince1900", Int64.Type}, {"DayNumberOfFiscalYear", Int64.Type}, {"DayNumberOfQuarter", Int64.Type}, {"DayNumberOfMonth", Int64.Type}, {"DayNumberOfWeek_Sun_Start", Int64.Type}, {"MonthName", type text}, {"MonthNameAbbreviation", type text}, {"DayName", type text}, {"DayNameAbbreviation", type text}, {"DayNumberOfWeek", Int64.Type}, {"AcademicYear", type text}, {"AcademicMonthNumber", Int64.Type}, {"AcademicWeekNumberOfYear", Int64.Type}, {"TermSession", type text}, {"CalendarYear", Int64.Type}, {"CalendarYearMonth", type date}, {"CalendarYearQtr", type date}, {"CalendarSemester", Int64.Type}, {"CalendarQuarter", Int64.Type}, {"CalendarWeekNumber", Int64.Type}, {"FiscalYear", Int64.Type}, {"FiscalMonth", Int64.Type}, {"FiscalQuarter", Int64.Type}, {"FiscalYearMonth", type date}, {"FiscalYearQtr", type text}, {"QuarterNumber", Int64.Type}, {"YYYYMMDD", Int64.Type}, {"MM/DD/YYYY", type text}, {"YYYY/MM/DD", type date}, {"YYYY-MM-DD", type date}, {"MonDDYYYY", type date}, {"IsCurrentYear", Int64.Type}, {"IsLastDayOfMonth", type text}, {"IsWeekday", type text}, {"IsWeekend", type text}, {"IsWorkday", type text}, {"IsFederalHoliday", type text}, {"IsBankHoliday", type text}, {"IsCompanyHoliday", type text}, {"AcademicYearPeriod", type text}, {"WeekStartDate", type date}, {"WeekCommencing DD/MM/YYYY", type date}, {"WeekCommencingName", type text}, {"Year Month Number", Int64.Type}, {"DayNumberofAcademicYear", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Source.Name"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

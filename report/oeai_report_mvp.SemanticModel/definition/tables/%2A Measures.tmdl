@@ -1,0 +1,65 @@
+table '* Measures'
+	lineageTag: 664630af-5bc6-403d-95d5-933c7a322935
+
+	measure 'Suspension Days' = IF(ISBLANK(SUM(fact_Exclusion[Days])), 0, SUM(fact_Exclusion[Days]))
+		lineageTag: 30690f75-4c1a-4fc3-a2b4-1292f81ef46b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CountOfStudentsOnRoll = ```
+			
+			CALCULATE(
+			    COUNT('dim_StudentAcademicYearGroup'[studentacademicyeargroupkey]),
+			    TREATAS(
+			        VALUES('dim_StudentAcademicYearGroup'[studentkey]),
+			        'dim_StudentExtended'[studentkey]
+			    ),
+			    'dim_StudentExtended'[Is_Current] = "1"
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 27d32c88-ab86-4fa5-8c11-473a9f2a68fe
+
+	measure 'Count of Marks (Non-Blank)' = ```
+			COUNTAX(fact_AttendanceSession, fact_AttendanceSession[Mark])
+			
+			```
+		formatString: 0
+		lineageTag: 90e7caf8-9c29-4476-9339-e1feb1049a2c
+
+	measure 'Has >2 Rows on Any Day' = ```
+			
+			VAR DaysWithMoreThanTwoRows =
+			    SUMX(
+			        VALUES(fact_AttendanceSession[Date]),
+			        IF(
+			            CALCULATE(COUNTROWS(fact_AttendanceSession)) > 2,
+			            1,
+			            0
+			        )
+			    )
+			RETURN
+			    IF(DaysWithMoreThanTwoRows > 0, 1, 0)
+			
+			```
+		formatString: 0
+		lineageTag: 89fa59fc-904d-4826-9702-d6c8a6a898ea
+
+	column Column
+		formatString: 0
+		lineageTag: 0164e512-961b-4dc3-ac00-63b25cd1f1b6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '* Measures' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = b48659fc9a7449e39a3966c773651f62
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

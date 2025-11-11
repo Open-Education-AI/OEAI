@@ -1,0 +1,49 @@
+table dim_std_ExclusionReason
+	lineageTag: aac58a93-bfcd-4043-93f0-2868721d3301
+
+	column Suspension_Reason
+		dataType: string
+		lineageTag: 9f139ec1-d570-47ea-ad2d-847470173b08
+		summarizeBy: none
+		sourceColumn: Suspension_Reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column std_Reason_Code
+		dataType: string
+		lineageTag: 12956cec-41ff-4bd2-8c80-edec109087e0
+		summarizeBy: none
+		sourceColumn: std_Reason_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column std_Reason_Description
+		dataType: string
+		lineageTag: 38fb06c1-69a1-41dc-8bb2-c5d0f7992cbc
+		summarizeBy: none
+		sourceColumn: std_Reason_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_std_ExclusionReason = m
+		mode: import
+		queryGroup: Reference
+		source =
+				let
+				    Source = AzureStorage.DataLake(Path_Reference & "/dim_std_ExclusionReason.csv"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (2)", each #"Transform File (dim_std_ExclusionReason)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (2)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (2)", Table.ColumnNames(#"Transform File (dim_std_ExclusionReason)"(#"Sample File (dim_std_ExclusionReason)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Source.Name"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Column1", "Suspension_Reason"}, {"Column2", "std_Reason_Code"}, {"Column3", "std_Reason_Description"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each [Suspension_Reason] <> "Suspension_Reason")
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

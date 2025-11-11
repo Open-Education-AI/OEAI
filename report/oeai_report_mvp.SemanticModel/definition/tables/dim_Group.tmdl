@@ -1,0 +1,111 @@
+table dim_Group
+	lineageTag: 4079cab2-1396-4e21-a8eb-2360ccbd835a
+
+	column Group_Code
+		dataType: string
+		lineageTag: f00e9476-2dec-4c28-ae0a-0abc40dac69c
+		summarizeBy: none
+		sourceColumn: Group_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_Description
+		dataType: string
+		lineageTag: ffc99823-7379-42e5-bf1a-7be791a00094
+		summarizeBy: none
+		sourceColumn: Group_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_ID
+		dataType: string
+		lineageTag: 2f0d62d5-f1b6-4d12-8cda-65a2219cac96
+		summarizeBy: none
+		sourceColumn: Group_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column mis_id
+		dataType: string
+		lineageTag: 07b97b52-d68d-4b64-bf7a-61d4d1a3c700
+		summarizeBy: none
+		sourceColumn: mis_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_Name
+		dataType: string
+		lineageTag: c5fa84ea-fec5-4377-b4a1-1110b2745620
+		summarizeBy: none
+		sourceColumn: Group_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column school_id
+		dataType: string
+		lineageTag: 7f12f7a7-81b5-453d-aad3-30df952d35ee
+		summarizeBy: none
+		sourceColumn: school_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_Type
+		dataType: string
+		lineageTag: 46542228-3581-4707-b86f-b4e2d85e65e2
+		summarizeBy: none
+		sourceColumn: Group_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column unique_key
+		dataType: string
+		lineageTag: a9bc3b2f-7de3-45bd-b13e-b488a12e3714
+		summarizeBy: none
+		sourceColumn: unique_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column organisationkey
+		dataType: string
+		lineageTag: 1feca30b-229a-4574-a3f7-9897907dc099
+		summarizeBy: none
+		sourceColumn: organisationkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column groupkey
+		dataType: string
+		lineageTag: c4b4633f-111b-46c6-8974-4b84ff9242e1
+		summarizeBy: none
+		sourceColumn: groupkey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_Group = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/dim_Group",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

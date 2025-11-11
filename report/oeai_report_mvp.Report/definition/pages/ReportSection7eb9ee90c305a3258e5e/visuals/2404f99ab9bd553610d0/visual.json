@@ -1,0 +1,139 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "2404f99ab9bd553610d0",
+  "position": {
+    "x": 294.99605367008684,
+    "y": 180.8366219415943,
+    "z": 4000,
+    "height": 59.605367008681924,
+    "width": 969.85003946329914,
+    "tabOrder": 15000
+  },
+  "visual": {
+    "visualType": "multiRowCard",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentCalculated"
+                    }
+                  },
+                  "Property": "Is_PP_String"
+                }
+              },
+              "queryRef": "dim_StudentCalculated.Is_PP_String",
+              "nativeQueryRef": "Pupil Premium",
+              "displayName": "Pupil Premium"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentExtended"
+                    }
+                  },
+                  "Property": "Free_School_Meals"
+                }
+              },
+              "queryRef": "dim_StudentExtended.Free_School_Meals",
+              "nativeQueryRef": "Free School Meals",
+              "displayName": "Free School Meals"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentCalculated"
+                    }
+                  },
+                  "Property": "Is_SEN_String"
+                }
+              },
+              "queryRef": "dim_StudentCalculated.Is_SEN_String",
+              "nativeQueryRef": "SEN Status",
+              "displayName": "SEN Status"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentCalculated"
+                    }
+                  },
+                  "Property": "Is_EAL_String"
+                }
+              },
+              "queryRef": "dim_StudentCalculated.Is_EAL_String",
+              "nativeQueryRef": "EAL",
+              "displayName": "EAL"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentExtended"
+                    }
+                  },
+                  "Property": "First_Language"
+                }
+              },
+              "queryRef": "dim_StudentExtended.First_Language",
+              "nativeQueryRef": "First Language",
+              "displayName": "First Language"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataLabels": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

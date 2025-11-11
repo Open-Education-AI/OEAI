@@ -1,0 +1,70 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Reference\Transform File from dim_NCYearGroup'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'Reference\Transform File from dim_Date'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Reference\Transform File from dim_NCYearGroup\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Reference\Transform File from dim_Date\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Data
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup Meta
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Reference
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup 'Reference\Transform File from dim_std_ExclusionReason'
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup 'Reference\Transform File from dim_std_ExclusionReason\Helper Queries'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Path_DataModel","Path_Reference","dim_Date","dim_NCYearGroup","dim_StudentExtended","dim_Organisation","dim_Student","fact_AttendanceSummary","fact_Behaviour","fact_Achievement","fact_Exclusion","dim_GroupMembership","dim_Group","Sample File (dim_NCYearGroup)","Parameter (dim_NCYearGroup)","Transform Sample File (dim_NCYearGroup)","Transform File (dim_NCYearGroup)","dim_StudentCalculated","Sample File (dim_Date)","Parameter (dim_Date)","Transform Sample File (dim_Date)","Transform File (dim_Date)","dim_StudentAcademicYearGroup","fact_AttendanceSession","dim_ExclusionReason","dim_std_ExclusionReason","Sample File (dim_std_ExclusionReason)","Parameter (dim_std_ExclusionReason)","Transform Sample File (dim_std_ExclusionReason)","Transform File (dim_std_ExclusionReason)"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_StudentExtended
+ref table dim_Organisation
+ref table dim_Student
+ref table fact_AttendanceSummary
+ref table fact_Behaviour
+ref table fact_Achievement
+ref table fact_Exclusion
+ref table dim_Group
+ref table dim_GroupMembership
+ref table dim_NCYearGroup
+ref table '* Measures'
+ref table dim_StudentCalculated
+ref table dim_Date
+ref table dim_StudentAcademicYearGroup
+ref table fact_AttendanceSession
+ref table dim_ExclusionReason
+ref table dim_std_ExclusionReason
+
+ref cultureInfo en-US
+

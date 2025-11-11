@@ -1,0 +1,283 @@
+table fact_Exclusion
+	lineageTag: 57bb79d6-7073-4c14-afee-5fa681094d1a
+
+	measure CountOfSuspensions = ```
+			
+			CALCULATE(
+			    COUNT(fact_Exclusion[exclusionkey]),
+			    fact_Exclusion[Type] IN {"Suspension", "FixedPeriodExclusion"},
+			    NOT(ISBLANK(fact_Exclusion[studentacademicyeargroupkey]))
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 671b1dd7-19fb-48a4-bd64-ce9706300c04
+
+	measure CountOfPerms =
+			CALCULATE(
+			   COUNT(fact_Exclusion[exclusionkey]),
+			    fact_Exclusion[Type] IN {"Permanent", "PermanentExclusion"},
+			    NOT(ISBLANK(fact_Exclusion[studentacademicyeargroupkey]))
+			)
+		formatString: 0
+		lineageTag: 4b98ec0d-e343-4639-a33b-6b5b3b0f47de
+
+	column Academic_Year
+		dataType: string
+		lineageTag: 2617d6e8-7e8f-4089-8baa-30de81579552
+		summarizeBy: none
+		sourceColumn: Academic_Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Agencies_Involved
+		dataType: string
+		lineageTag: defdf9c4-41c4-4e74-9167-3095b53a5965
+		summarizeBy: none
+		sourceColumn: Agencies_Involved
+
+		annotation SummarizationSetBy = Automatic
+
+	column Appeal_Received
+		dataType: string
+		lineageTag: 131db13a-875f-469e-9ca0-2225936f3def
+		summarizeBy: none
+		sourceColumn: Appeal_Received
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comments
+		dataType: string
+		lineageTag: a0e2bd85-84fc-4085-81bf-edd5a3ce91a4
+		summarizeBy: none
+		sourceColumn: Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	column Days
+		dataType: double
+		formatString: 0.0
+		lineageTag: 59293984-3972-4bc4-9d21-d22504d79402
+		summarizeBy: sum
+		sourceColumn: Days
+
+		annotation SummarizationSetBy = Automatic
+
+	column End_Date
+		dataType: string
+		lineageTag: 9529b0d8-9302-4972-b932-303b6755ea59
+		summarizeBy: none
+		sourceColumn: End_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column End_Session
+		dataType: string
+		lineageTag: 9165719b-bafa-4b41-b379-532f1f35ed10
+		summarizeBy: none
+		sourceColumn: End_Session
+
+		annotation SummarizationSetBy = Automatic
+
+	column external_id
+		dataType: string
+		lineageTag: c232d702-99ae-45dd-ad3f-5c3fad768b71
+		summarizeBy: none
+		sourceColumn: external_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Reason
+		dataType: string
+		lineageTag: 8e7714d7-1b09-411c-aca8-d695e38dba99
+		summarizeBy: none
+		sourceColumn: Reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column Reason_Code
+		dataType: string
+		lineageTag: 7a537094-2b42-4191-9a7f-50d52b203ab8
+		summarizeBy: none
+		sourceColumn: Reason_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column school_id
+		dataType: string
+		lineageTag: 85f33123-2610-455e-9380-0dbb0e453eb7
+		summarizeBy: none
+		sourceColumn: school_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sessions
+		dataType: string
+		lineageTag: 74fc52c8-034a-4e37-9d2e-1b1f4531d46e
+		summarizeBy: none
+		sourceColumn: Sessions
+
+		annotation SummarizationSetBy = Automatic
+
+	column Start_Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5c555571-f89d-469f-aea9-d78b84e66ed1
+		summarizeBy: none
+		sourceColumn: Start_Date
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Start_Session
+		dataType: string
+		lineageTag: d4c539b5-ecd3-4424-984d-a0dcb8434ca0
+		summarizeBy: none
+		sourceColumn: Start_Session
+
+		annotation SummarizationSetBy = Automatic
+
+	column student_id
+		dataType: string
+		lineageTag: 6a5c6c4a-1460-4136-8a1a-315da105fa8a
+		summarizeBy: none
+		sourceColumn: student_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Term
+		dataType: string
+		lineageTag: 6fb246d9-3361-47a0-97e3-25781cc80bfa
+		summarizeBy: none
+		sourceColumn: Term
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: a58ac028-8c19-4d54-87c5-6a0253a5cb05
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type_Code
+		dataType: string
+		lineageTag: 81f4677a-9d61-4865-9365-373cf3f28a38
+		summarizeBy: none
+		sourceColumn: Type_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column unique_key
+		dataType: string
+		lineageTag: f6b6052d-8899-4dfd-abef-69f6700d563a
+		summarizeBy: none
+		sourceColumn: unique_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_updated
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1cc0898c-6a51-48e1-8c3e-8d4a8bbd083d
+		summarizeBy: none
+		sourceColumn: last_updated
+
+		annotation SummarizationSetBy = Automatic
+
+	column organisationkey
+		dataType: string
+		lineageTag: 43947156-5ee5-489c-a74e-0e0cd849a4a5
+		summarizeBy: none
+		sourceColumn: organisationkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column exclusionkey
+		dataType: string
+		lineageTag: e3b73df7-31c7-44e8-8e39-544a117b5f8d
+		summarizeBy: none
+		sourceColumn: exclusionkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentkey
+		dataType: string
+		lineageTag: 6cad1f96-cba6-4c36-8086-ef49e9d40dbd
+		summarizeBy: none
+		sourceColumn: studentkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Appeal_Result
+		dataType: string
+		lineageTag: 244a86fa-d7dc-485d-838c-d09a012f9641
+		summarizeBy: none
+		sourceColumn: Appeal_Result
+
+		annotation SummarizationSetBy = Automatic
+
+	column Appeal_Result_Date
+		dataType: string
+		lineageTag: 64c1878e-a1f6-4df5-9e17-796c730a9752
+		summarizeBy: none
+		sourceColumn: Appeal_Result_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentacademicyeargroupkey
+		dataType: int64
+		formatString: 0
+		lineageTag: 423e66e9-e4b4-4dc3-af96-4c6274f68799
+		summarizeBy: none
+		sourceColumn: studentacademicyeargroupkey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_Exclusion = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				// let
+				//     // Directly use Path_DataModel to locate the folder
+				//     Source = AzureStorage.DataLake(Path_DataModel & "/fact_Exclusion"),
+				//     #"Filtered Rows" = Table.SelectRows(Source, each [Name] <> "_SUCCESS"),
+				//     #"Filtered Hidden Files1" = Table.SelectRows(#"Filtered Rows", each [Attributes]?[Hidden]? <> true),
+				//     #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File", each #"Transform File"([Content])),
+				//     #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				//     #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File"}),
+				//     #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File", Table.ColumnNames(#"Transform File"(#"Sample File"))),
+				//     #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"studentkey", type text}, {"Academic_Year", type text}, {"Agencies_Involved", type text}, {"Appeal_Received", type text}, {"Appeal_Result", type text}, {"Appeal_Result_Date", type text}, {"Comments", type text}, {"Days", type number}, {"End_Date", type text}, {"End_Session", type text}, {"external_id", type text}, {"Reason", type text}, {"Reason_Code", type text}, {"school_id", type text}, {"Sessions", type text}, {"Start_Date", type datetime}, {"Start_Session", type text}, {"student_id", type text}, {"Term", type text}, {"Type", type text}, {"Type_Code", type text}, {"unique_key", type text}, {"last_updated", type datetime}, {"exclusionkey", type text}, {"organisationkey", type text}, {"studentacademicyeargroupkey", Int64.Type}}),
+				//     #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Source.Name"})
+				// in
+				//     #"Removed Columns"
+				
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/fact_Exclusion",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content]),
+				    #"Changed Type" = Table.TransformColumnTypes(CombinedData,{{"Days", type number}, {"Start_Date", type datetime}, {"last_updated", type datetime}})
+				in
+				    #"Changed Type"
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,264 @@
+table fact_AttendanceSession
+	lineageTag: 080a6c37-f1ae-450b-8bee-cfd2fe4d1f31
+
+	column studentkey
+		dataType: string
+		lineageTag: aed60703-4289-4cf5-b9ce-ad0c19bee684
+		summarizeBy: none
+		sourceColumn: studentkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Academic_Year
+		dataType: string
+		lineageTag: 5723a446-4f22-4ab3-b53a-e69373c0782f
+		summarizeBy: none
+		sourceColumn: Academic_Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bc04d127-f177-4fb2-9ab8-66b47b26452f
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Mark
+		dataType: string
+		lineageTag: e78448b4-5265-426a-b6ab-70bead113970
+		summarizeBy: none
+		sourceColumn: Mark
+
+		annotation SummarizationSetBy = Automatic
+
+	column Session
+		dataType: string
+		lineageTag: e3d7a774-bfeb-4ca7-8a90-44c6e44ca8ca
+		summarizeBy: none
+		sourceColumn: Session
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_aea
+		dataType: int64
+		formatString: 0
+		lineageTag: d75fbf39-55a8-4be0-8bc9-fa656c0e91f8
+		summarizeBy: sum
+		sourceColumn: is_aea
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_attend
+		dataType: int64
+		formatString: 0
+		lineageTag: da2a66ab-caee-4bb1-89c4-ddd617ed191b
+		summarizeBy: sum
+		sourceColumn: is_attend
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_auth_abs
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b8bddeb-ddd6-4ca8-bb05-f0d7765b8a65
+		summarizeBy: sum
+		sourceColumn: is_auth_abs
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_late_L
+		dataType: int64
+		formatString: 0
+		lineageTag: b56dcf6e-8a51-462c-a52b-14d227aaf021
+		summarizeBy: sum
+		sourceColumn: is_late_L
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_late_U
+		dataType: int64
+		formatString: 0
+		lineageTag: adca6f1b-ef16-402c-87b7-c4d9dab09c60
+		summarizeBy: sum
+		sourceColumn: is_late_U
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_missing
+		dataType: int64
+		formatString: 0
+		lineageTag: a431e8bb-d8b6-41bb-868e-d721f31ff357
+		summarizeBy: sum
+		sourceColumn: is_missing
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_nr
+		dataType: int64
+		formatString: 0
+		lineageTag: fb6fb7c6-0a2c-4523-97de-f9b9049534d0
+		summarizeBy: sum
+		sourceColumn: is_nr
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_possible
+		dataType: int64
+		formatString: 0
+		lineageTag: 382a7eb0-0bd0-4b44-a391-4264f111363b
+		summarizeBy: sum
+		sourceColumn: is_possible
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_present
+		dataType: int64
+		formatString: 0
+		lineageTag: 78861d8a-60d2-4f76-aa7d-07c94197017e
+		summarizeBy: sum
+		sourceColumn: is_present
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_unauth_abs
+		dataType: int64
+		formatString: 0
+		lineageTag: 287c4f5f-5f4a-4380-a1b0-5a91352ff759
+		summarizeBy: sum
+		sourceColumn: is_unauth_abs
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentacademicyeargroupkey
+		dataType: int64
+		formatString: 0
+		lineageTag: a4961f44-dde4-4e7a-92b9-45227be34755
+		summarizeBy: none
+		sourceColumn: studentacademicyeargroupkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_10_in_10
+		dataType: int64
+		formatString: 0
+		lineageTag: 9069a253-abf8-48d3-bf2f-08223c7cb9a2
+		summarizeBy: sum
+		sourceColumn: Is_10_in_10
+
+		annotation SummarizationSetBy = Automatic
+
+	column 3_days_abs
+		dataType: int64
+		formatString: 0
+		lineageTag: 1bbb3c78-c3ee-4a7f-b975-f600ac21be1a
+		summarizeBy: sum
+		sourceColumn: 3_days_abs
+
+		annotation SummarizationSetBy = Automatic
+
+	column abs_after_exclusion
+		dataType: int64
+		formatString: 0
+		lineageTag: f91109ed-8d34-4ecc-b043-6e0598f28cf1
+		summarizeBy: sum
+		sourceColumn: abs_after_exclusion
+
+		annotation SummarizationSetBy = Automatic
+
+	column cumulative_present
+		dataType: int64
+		formatString: 0
+		lineageTag: ac2adfea-6c40-474e-8f09-bd9ef1ced13b
+		summarizeBy: sum
+		sourceColumn: cumulative_present
+
+		annotation SummarizationSetBy = Automatic
+
+	column cumulative_possible
+		dataType: int64
+		formatString: 0
+		lineageTag: 6c53aea6-fc50-4380-8f9c-cac337495449
+		summarizeBy: sum
+		sourceColumn: cumulative_possible
+
+		annotation SummarizationSetBy = Automatic
+
+	column attendance_ratio
+		dataType: double
+		lineageTag: 1ed4bfc0-2a9e-412d-bed5-cbaaaa092375
+		summarizeBy: sum
+		sourceColumn: attendance_ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_PA
+		dataType: int64
+		formatString: 0
+		lineageTag: 13623218-283e-4a54-86bd-30283fdf5c8b
+		summarizeBy: sum
+		sourceColumn: is_PA
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_SA
+		dataType: int64
+		formatString: 0
+		lineageTag: e1761a12-e19b-4da9-8af0-0ace88994944
+		summarizeBy: sum
+		sourceColumn: is_SA
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_at_risk_PA
+		dataType: int64
+		formatString: 0
+		lineageTag: f4b9eb83-fce0-475d-a840-e27c23e643d2
+		summarizeBy: sum
+		sourceColumn: is_at_risk_PA
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_at_risk_SA
+		dataType: int64
+		formatString: 0
+		lineageTag: cf858a68-47da-46a0-a333-aeb20033d643
+		summarizeBy: sum
+		sourceColumn: is_at_risk_SA
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_AttendanceSession = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/fact_AttendanceSession",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
