@@ -38,18 +38,13 @@ The repository has been created in January 2024 and will build over time as part
 
 * Cloud Infrastructure for Microsoft Fabric. Scripts to automate the creation of Fabric Capacity and related Azure Resources to OEAI framework standards.
 * The OEAI Python Reference.  A helper Class containing OEAI standard functions used in Modules and Packages.
-* Wonde OEAI Module.  This is ready for publication.
-* Bromcom OEAI Module.  Expected publication February, based on Bromcom's API.
 * MIS Insight Package.  Jupyter Notebooks and Power BI assets to provide a straightforward Trust Analytics on common MIS data.
 * Predictive Attendance Package.  To understand historical attednance patterns and predict future attenedance and attendance risk for intervention.  Led by Dixons Academies Trust.
 * Contextual Safeguarding Risk Package.  An ethical predictive risk package underpinned by the conceptual contextual safeguarding model.  Led by Greenwood Academies Trust.
 * CPOMS OEAI Module.  Required by the Contextual Safeguarding Risk Package.
-* Police Crime Data OEAI Module. Required by the Contextual Safeguarding Risk Package.
 * Weather Module. Required by the Predictve Attendance Package.
 * Education Use Cases:
     * Foundational Analytics
     * Keeping Children Safe in Education
     * Tackling Persistent Absence
     * Improving Reading (Microsoft Reading Progress)
- 
-    * https://dbdiagram.io/d/OEAI_Silver-65367222ffbf5169f04381a9

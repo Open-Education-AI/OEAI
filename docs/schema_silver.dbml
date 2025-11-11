@@ -1,0 +1,797 @@
+//  ************************************************************************************
+//  Tables required for the OEAI Silver Layer
+//  
+//  ************************************************************************************
+
+
+// **********************************************************
+//  DIMENSION TABLES
+// **********************************************************
+
+Table dim_Organisation [headercolor: #011B4E] {
+  organisationkey integer [Primary Key, note: 'generated uuid in silver'] 
+  external_id varchar [note: 'id for each school used in source system eg from Wonde API']
+  unique_key varchar [note: 'external_id + URN or other composite key']
+  addresskey integer [note: 'blank']
+  Organisation_Type varchar [note: 'phase of education eg Primary']
+  LA_Code integer [note: 'format 123']
+  Establishment_Number integer [note: 'format 5678']
+  URN integer [note: 'format 123456']
+  UKPRN integer [note: 'blank']
+  Organisation_Status varchar [note: 'Active by default']
+  Organisation_Name varchar
+  last_updated datetime [note: 'blank']
+}
+
+
+Table dim_Student [headercolor: #011B4E] {
+  studentkey integer [primary key, note: 'generated uuid in silver']
+  school_id varchar [note: 'id used in source system eg from Wonde API']
+  student_id varchar
+  unique_key varchar [note: 'school_id + student_id']
+  external_id varchar [note: 'optional external identifier if distinct from student_id']
+  organisationkey integer [note: 'from dim_Organisation']
+  addresskey integer [note: 'not present but links to dim_Address']
+  Forename varchar
+  Surname varchar
+  Middle_Names varchar
+  Legal_Forename varchar
+  Legal_Surname varchar
+  Gender varchar [note: 'format MALE, FEMALE or as specified in MIS']
+  Sex varchar [note: 'may overlap with Gender; retain if both are used']
+  Date_Of_Birth varchar [note: 'formats are inconsistent']
+  UPN varchar
+  Current_Year varchar [note: 'NC Year']
+  Year_Group varchar [note: 'Calculated from Group Membership']
+  updated_at datetime
+  Is_Deleted varchar [note: 'Used for soft delete tracking']
+}
+
+
+Ref: dim_Student.organisationkey > dim_Organisation.organisationkey
+
+Table dim_StudentExtended [note: 'No note', headercolor: #011B4E] {
+  studentextendedkey integer [primary key]  
+  school_id varchar [note: 'id used in source system eg from Wonde API']
+  student_id varchar
+  unique_key varchar [note: 'school_id + student_id']
+  studentkey integer [note: 'from dim_Student']
+  organisationkey varchar [note: 'from dim_Organisation']
+
+  Current_Year varchar [note: 'derived from GroupMembership']
+  NC_Year varchar [note: 'National Curriculum Year']
+  Year_Group varchar [note: 'present in PySpark as Year_Group']
+  Current_NC_Year varchar [note: 'present in PySpark as Current_NC_Year']
+
+  Religion varchar
+  Ethnicity varchar
+  Ethnicity_Code varchar
+  Nationality varchar [note: 'currently None']
+  Sen_Status varchar
+  First_Language varchar [note: 'short code eg ENG']
+  
+  In_LEA_Care bit [note: 'TRUE/FALSE']
+  Ever_In_Care bit [note: 'True, False or None (sometimes only True/None)']
+  Free_School_Meals bit [note: 'currently True, False or None']
+  Free_School_Meals_6 bit [note: 'TRUE/FALSE']
+  English_As_Additional_Language bit [note: 'currently True, False or None']
+  English_As_Additional_Language_Status bit [note: 'currently None']
+  Pupil_Premium_Indicator bit
+  Pupil_Premium_Eligible bit
+  Service_Child_Indicator bit [note: 'currently True, False or None']
+  Gifted_And_Talented_Status bit [note: 'TRUE/FALSE']
+  Child_Protection_Plan bit [note: 'currently True, False or None']
+  Child_In_Need bit [note: 'currently True, False or None']
+  
+  Enrolment_Status varchar [note: 'inconsistent']
+  Admission_Date date [note: 'formats are inconsistent']
+  Admission_Number integer
+  Leaving_Date varchar [note: '?????']
+
+  Is_Current bit [note: 'present in PySpark, boolean flag']
+  Postcode varchar [note: 'postcode from student record']
+
+  // last_updated datetime [note: 'currently commented out']
+}
+
+
+Ref: dim_StudentExtended.studentkey > dim_Student.studentkey
+
+Table dim_StudentCalculated [note: 'Gold only, not Silver',headercolor: #E4A62E] {
+  studentkey integer [note: 'from dim_Student']
+  is_current bit [note: '0/1']
+  Is_Current_String varchar [note: 'Current, Not Current']
+  is_sen bit [note: '0/1']
+  Is_SEN_String varchar [note: 'SEN, Not SEN']
+  is_summer_born bit [note: '0/1']
+  Is_Summer_Born_String varchar [note: 'Summer Born, Not Summer Born']
+  }
+
+Ref: dim_StudentCalculated.studentkey > dim_Student.studentkey
+
+
+
+
+Table dim_Address [headercolor: #011B4E] {
+  addresskey integer [primary key]
+  external_id varchar [note: 'id used in source system']
+  Composite_Address varchar 
+  Address_Line_1 varchar
+  Address_Line_2 varchar
+  Address_Line_3 varchar
+  City varchar
+  State_or_Province  varchar
+  Postcode varchar
+  Type varchar
+  Status varchar
+  Longitude float
+  Latitude float
+  Easting float
+  Northing float
+  last_updated datetime
+}
+Ref: dim_Address.addresskey > dim_Organisation.addresskey
+Ref: dim_Address.addresskey > dim_Student.addresskey
+
+Table dim_Group [headercolor: #011B4E] {
+  groupkey integer [primary key, note: 'uuid generated in silver']
+  school_id varchar [note: 'id used in source system eg from Wonde API']
+  unique_key varchar [note: 'school_id + student_id']
+  organisationkey integer [note: 'from dim_Organisation']
+  Group_Name varchar
+  Group_Code varchar 
+  Group_Type varchar [note: 'House, Registration etc']
+  Group_Description varchar
+  //Subject varchar // possibly only populated for Classes
+  //Status varchar
+  //last_updated datetime
+}
+
+Ref: dim_Group.groupkey < dim_GroupMembership.groupkey
+
+Table dim_GroupMembership [headercolor: #011B4E] {
+  groupmembershipkey integer [primary key, note: 'uuid generated in silver']
+  groupkey integer [note: 'from dim_Group']
+  organisationkey integer [note: 'from dim_Organisation']
+  studentkey integer [note: 'from dim_Student'] 
+  school_id varchar [note: 'id used in source system eg from Wonde API']
+  student_id varchar
+  Group_Name varchar
+  Group_Type varchar
+  unique_key varchar [note: 'school_id + student_id + external_id']
+  Start_Date date 
+  End_Date date 
+}
+
+Ref: dim_GroupMembership.studentkey > dim_Student.studentkey
+
+// Table dim_Period
+Table dim_Period [headercolor: #011B4E] {
+  periodkey integer [primary key]
+  external_id varchar [note: 'id used in source system']
+  organisationkey integer
+  Start_Time varchar
+  End_Time varchar
+  Period_Name varchar
+  Period_Day varchar
+  Period_Day_Number integer
+  Period_Description varchar
+  last_updated datetime
+}
+
+Ref: dim_Period.organisationkey > dim_Organisation.organisationkey
+
+// Table dim_Assessment
+Table dim_Assessment [headercolor: #011B4E] {
+  assessmentkey varchar [primary key]
+  aspect_id varchar
+  created_at_date datetime
+  description text
+  max_value varchar
+  min_value varchar
+  mis_id integer
+  name text
+  school_id varchar
+  type text
+  unique_key varchar
+  updated_at_date datetime
+  organisationkey varchar
+}
+
+Ref: dim_Assessment.organisationkey > dim_Organisation.organisationkey
+Ref: dim_Assessment.aspect_id > fact_Result.aspect_id
+
+// Table dim_ResultSet
+Table dim_ResultSet [headercolor: #011B4E] {
+  resultsetkey varchar [primary key]
+  create_at_date datetime
+  end_date datetime
+  end_date_date datetime //to be cleaned up
+  resultset_id varchar
+  locked bool
+  mis_id integer
+  module varchar
+  name varchar
+  school_id varchar
+  source varchar
+  start_date datetime
+  start_date_date datetime //to be cleaned up
+  supplier varchar
+  unique_key varchar
+  updated_at_time datetime
+  organisationkey varchar
+
+}
+
+Ref: dim_ResultSet.organisationkey > dim_Organisation.organisationkey
+Ref: dim_ResultSet.resultset_id > fact_Result.resultset_id
+
+// Table dim_Employee
+Table dim_Employee [headercolor: #011B4E] {
+  employeekey integer [primary key]
+  external_id varchar [note: 'id used in source system']
+  organisationkey integer
+  Title varchar
+  Initials varchar
+  Surname varchar
+  Forename varchar
+  Legal_Surname varchar
+  Legal_Forename varchar
+  Gender varchar
+  Date_Of_Birth date
+  teachingstaff bit
+  staffcode varchar
+  Role_Text varchar
+  Qualified_Teacher_Status varchar
+  Higher_Level_Teaching_Assistant_Status bit
+  Employment_Start_Date date
+  Employment_End_Date date
+  last_updated datetime
+}
+
+
+// Table dim_Date to be completed
+Table dim_Date [headercolor: #2D6512] {
+  datekey integer [primary key] 
+  Full_Date varchar
+  Month_Number_Of_Year integer
+  Month_Number_Of_Quarter integer
+  ISO_Year_And_Week_Number varchar
+  ISO_Week_Number_Of_Year integer
+  SS_Week_Number_Of_Year integer
+  ISO_Week_Number_Of_Quarter_454_Pattern integer
+  SS_Week_Number_Of_Quarter_454_Pattern integer
+  SS_Week_Number_Of_Month integer
+  Day_Number_Of_Year integer
+  Days_Since_1900 integer
+  Day_Number_Of_FiscalYear integer
+  Day_Number_Of_Quarter integer
+  Day_Number_Of_Month integer
+  Day_Number_Of_Week_Sun_Start integer
+  Month_Name varchar
+  Month_Name_Abbreviation varchar
+  Day_Name varchar
+  Day_Name_Abbreviation varchar
+  Day_Number_Of_Week integer
+  Academic_Year varchar
+  Academic_Month_Number integer
+  Academic_Week_Number_Of_Year integer
+  Academic_Year_Period varchar
+  Day_Number_Of_Academic_Year integer
+  Term_Session varchar
+  Calendar_Year varchar
+  Calendar_Year_Month integer
+  Calendar_Year_Qtr integer
+  Calendar_Semester integer
+  Calendar_Quarter integer
+  Calendar_Week_Number integer
+  Fiscal_Year varchar
+  Fiscal_Month integer
+  Fiscal_Quarter integer
+  Fiscal_Year_Month varchar
+  Fiscal_Year_Qtr varchar
+  Quarter_Number integer
+  MMDDYYYY varchar
+  YYYYMMDD varchar
+  MonDDYYYY varchar
+  iscurrentyear bit
+  islastdayofmonth bit
+  isweekday bit
+  isweekend bit
+  isworkday bit
+  isfederalholiday bit
+  isbankholiday bit
+  iscompanyholiday bit
+  Week_Start_Date varchar
+  Week_Commencing_DDMMYYYY varchar
+  Week_Commencing_Name varchar
+  Year_Month_Number varchar
+}
+
+// Table dim_User_Filter to be completed
+Table dim_UserFilter [headercolor: #2D6512] {
+  userfilterkey varchar
+}
+
+
+
+// **********************************************************
+//  FACT TABLES
+// **********************************************************
+
+// Table fact_AttendanceSummary
+Table fact_AttendanceSummary {
+  attendancesummarykey varchar [primary key, note: 'uuid generated in silver'] 
+  
+  studentkey varchar [note: 'from dim_Student']
+  organisationkey varchar [note: 'from dim_Organisation']
+  
+  external_id varchar [note: 'id for each school used in source system eg from Wonde API']
+  student_id integer
+  school_id varchar [note: 'id used in source system eg from Wonde API']
+
+  unique_student_id varchar [note: 'school_id + student_id']
+  unique_key varchar [note: 'school_id + student_id + external_id']
+
+  Authorised_Absences integer
+  Unauthorised_Absences integer
+  Unexplained_Absences integer
+  Late_Before_Registration integer
+  Late_After_Registration integer
+  Possible_Marks integer
+  Missing_Marks integer
+  Attendance_Not_Required integer
+  Present integer
+  Approved_Education_Activity integer
+
+  Attendance_Mark_String varchar [note: 'field often empty']
+
+  Percentage_Attendance decimal(10,0)
+  Percentage_Authorised_Absence decimal(10,0)
+  Percentage_Unauthorised_Absence decimal(10,0)
+  Percentage_Unexplained_Absence decimal(10,0)
+  Percentage_Missing decimal [note: 'not defined in schema, may be calculated']
+
+  Is_Persistently_Absent boolean
+  Is_Severely_Absent boolean
+
+  last_updated datetime
+
+  // Can we get Minutes late? a common request currently
+}
+
+
+Ref: fact_AttendanceSummary.organisationkey > dim_Organisation.organisationkey
+Ref: fact_AttendanceSummary.studentkey > dim_Student.studentkey
+
+
+// Table fact_AttendanceSession
+Table fact_AttendanceSession {
+  attendancesessionkey integer [primary key]
+  external_id varchar [note: 'id used in source system']
+  organisationkey integer
+  school_id varchar [note: 'from source system if relevant']
+  studentkey integer
+  student_id varchar
+  unique_key varchar [note: 'composite id if used']
+  
+  date date
+  Session varchar
+  Mark varchar
+  is_present bit
+  is_auth_abs bit
+  is_unauth_abs bit
+  is_possible bit
+
+  is_attend bit [note: 'attendance flag']
+  is_aea bit [note: 'authorized educational activity']
+  is_late_L bit [note: 'late before register closes']
+  is_late_U bit [note: 'late after register closes']
+  is_missing bit [note: 'missing code']
+  is_nr bit [note: 'not required to attend']
+
+  Comment varchar
+  Employee varchar
+  last_updated datetime
+}
+
+Ref: fact_AttendanceSession.organisationkey > dim_Organisation.organisationkey
+Ref: fact_AttendanceSession.studentkey > dim_Student.studentkey
+
+
+// Table fact_AttendanceLesson
+Table fact_AttendanceLesson {
+  attendancelessonkey integer [primary key]
+  external_id varchar [note: 'id used in source system']
+  unique_key varchar [note: 'composite key if used']
+  school_id varchar [note: 'from source system']
+  student_id varchar
+  studentkey integer [note: 'foreign key to dim_Student']
+  organisationkey integer [note: 'foreign key to dim_Organisation']
+  
+  period_instance_id varchar [note: 'identifier for a specific period session']
+  periodkey varchar [note: 'foreign key to dim_Period']
+  lesson_id varchar [note: 'individual lesson ID']
+  Full_Date date
+  Date date [note: 'alternative date field if Full_Date is deprecated']
+  start_at varchar [note: 'start time of lesson']
+  end_at varchar [note: 'end time of lesson']
+  Subject varchar
+
+  Attendance_String varchar [note: 'Wonde attendance_code - links to Attendance Codes']
+  attendancecode varchar
+  Period_Name varchar [note: 'lookup from dim_Period']
+  Period_Description varchar [note: 'lookup from dim_Period']
+  
+  is_present bit
+  is_auth_abs bit
+  is_unauth_abs bit
+  is_possible bit
+  is_attend bit
+  is_aea bit
+  is_late_L bit
+  is_late_U bit
+  is_missing bit
+  is_nr bit
+
+  Comment varchar
+  last_updated datetime
+}
+
+
+Ref: fact_AttendanceLesson.organisationkey > dim_Organisation.organisationkey
+Ref: fact_AttendanceLesson.studentkey > dim_Student.studentkey
+Ref: fact_AttendanceLesson.periodkey > dim_Period.periodkey
+
+
+// Table fact_Achievement 
+Table fact_Achievement {
+  achievementkey varchar [primary key, note: 'uuid generated in silver']
+  external_id varchar [note: 'id used in source system']
+  organisationkey varchar [note: 'from dim_Organisation']
+
+  unique_key varchar [note: 'school_id + student_id + external_id']
+
+  student_id varchar
+  school_id varchar [note: 'id used in source system eg from Wonde API']
+  studentkey varchar [note: 'from dim_Student']
+
+  Type varchar
+  Subject varchar
+  Class varchar [note: 'inconsistent? Some empty']
+
+  Points integer
+  Total_Points integer
+  Comment varchar [note: 'inconsistent? Some empty']
+
+  Achievement_Date varchar [note: 'stored as string in PySpark']
+  last_updated varchar [note: 'stored as string in PySpark']
+}
+
+Ref: fact_Achievement.organisationkey > dim_Organisation.organisationkey
+Ref: fact_Achievement.studentkey > dim_Student.studentkey
+
+
+
+// Table fact_Behaviour 
+Table fact_Behaviour {
+  behaviourkey varchar [primary key, note: 'uuid generated in silver']
+  external_id varchar [note: 'id used in source system']
+  
+  // unique_student_id varchar [note: 'school_id + student_id']
+  unique_key varchar [note: 'school_id + student_id + external_id']
+
+  student_id varchar
+  school_id varchar
+  studentkey varchar [note: 'foreign key to dim_Student']
+  organisationkey integer [note: 'foreign key to dim_Organisation']
+  datekey integer [note: 'e.g., YYYYMMDD format or foreign key to dim_Date']
+
+  Type varchar
+  Location varchar
+  Status varchar
+  Action varchar
+  Subject varchar
+  Class varchar
+
+  Points integer
+  Total_Points integer
+  Comment varchar
+
+  Incident_Date date [note: 'format from source system']
+  last_updated datetime
+
+  // Missing: comments & outcome/outcome_code
+}
+
+
+Ref: fact_Behaviour.organisationkey > dim_Organisation.organisationkey
+Ref: fact_Behaviour.studentkey > dim_Student.studentkey
+
+// Table fact_Exclusion 
+Table fact_Exclusion {
+  exclusionkey integer [primary key]
+  external_id varchar [note: 'id used in source system']
+  school_id varchar
+  student_id varchar
+  organisationkey integer
+  studentkey integer
+  Type varchar //  [Fixed Term, Permanent, Reinstated from Permanent, Suspension]
+  Type_Code varchar //  [FIXD,PERM,RPER,SUSP]
+  Reason varchar // Explode comma separated in Bronze to Silver to multiple records
+  Reason_Code varchar // Explode comma separated in Bronze to Silver to multiple records
+  Start_Date varchar
+  End_Date varchar
+  Start_Session varchar
+  End_Session varchar
+  Sessions float
+  Days float
+  Academic_Year varchar
+  Term varchar
+  Comments varchar
+  Agencies_Involved varchar
+  Discipline_Committee_Date date
+  Discipline_Committee_Result varchar
+  Appeal_Received bit
+  Appeal_Result varchar
+  Appeal_Result_Date date
+  unique_student_id varchar [note: 'school_id + student_id']
+  unique_key varchar [note: 'school_id + student_id + external_id']
+  last_updated datetime
+}
+
+Ref: fact_Exclusion.organisationkey > dim_Organisation.organisationkey
+Ref: fact_Exclusion.studentkey > dim_Student.studentkey
+
+// Table fact_Detention 
+Table fact_Detention {
+  detentionkey integer [primary key]
+  external_id varchar [note: 'id used in source system']
+  organisationkey integer
+  studentkey integer
+  datekey integer // lookup based on start_time date datepart
+  Detention_Type varchar
+  Comment varchar
+  Room varchar
+  Start_Time datetime
+  End_Time datetime
+  Attended_By_Employee varchar
+  last_updated datetime
+}
+
+Ref: fact_Detention.organisationkey > dim_Organisation.organisationkey
+Ref: fact_Detention.studentkey > dim_Student.studentkey
+
+// Table fact_Result
+Table fact_Result {
+  resultkey integer [primary key]
+  aspect_id varchar
+  collection_date_date datetime
+  created_at_date datetime
+  grade_value integer
+  result_id varchar
+  mis_id integer
+  result varchar
+  result_date datetime
+  resultset_id varchar
+  school_id varchar
+  student_id varchar
+  unique_key varchar
+  updated_at_date datetime
+  organisationkey varchar
+  studentkey varchar
+
+}
+
+Ref: fact_Result.studentkey > dim_Student.studentkey
+
+// Table dim_Staff
+Table dim_Staff {
+  school_id string
+  staff_id integer
+  Legal_Forename string
+  Legal_Surname string
+  Forename string
+  Surname string
+  Date_Of_Birth date
+  Title string
+  Legacy_System_ID string
+  Sex string
+  Gender string //Not available in Wonde
+  Continuous_Service_Start_Date timestamp
+  QTS boolean
+  EYTS boolean //Not available in Wonde
+  QTLS boolean //Not available in Wonde
+  HLTA boolean
+  Is_Teacher boolean // Inconsistently completed
+  staffkey string [primary key]
+  organisationkey string
+  Is_Current integer //Is available in Wonde, is derived from most recent contract in Arbor
+}
+
+// Table fact_StaffAbsence
+Table fact_StaffAbsence {
+  external_id string
+  staff_id integer
+  Days float
+  Hours float
+  Start_Date timestamp
+  End_Date timestamp
+  Type string
+  Is_Paid_Leave boolean
+  Is_Paid_Holiday boolean //Not available in Wonde
+  Is_Paid_Maternity boolean //Not available in Wonde
+  Is_Paid_Paternity boolean //Not available in Wonde
+  Is_Authorised_Absence boolean //Not available in Wonde
+  Sickness_Category string
+  school_id string
+  staffabsencekey string [primary key]
+  organisationkey string
+  staffkey string
+  Authorised_Pay_Rate string // Not in Arbor
+}
+
+Ref: fact_StaffAbsence.staffkey > dim_Staff.staffkey
+
+// Table dim_StaffContract
+Table dim_StaffContract {
+  external_id string
+  staff_id integer
+  school_id string
+  Start_Date string
+  End_Date string
+  Employment_Type string
+  staffcontractkey string [primary key]
+  organisationkey string
+  staffkey string
+  }
+
+Ref: dim_StaffContract.staffkey > dim_Staff.staffkey
+
+// Table dim_StaffSalary
+Table dim_StaffSalary {
+  external_id string
+  school_id string
+  staff_id string
+  Payroll_Number string
+  Salary decimal
+  FTE_Salary decimal
+  Total_Pay decimal
+  Latest_Pay_Review_Date date
+  Superannuation string
+  Pay_Factor decimal
+  Service_Term string
+  Hours_Week decimal
+  Weeks_Year decimal
+  Hours_Year decimal
+  FTE_Hours decimal
+  staffsalarykey string
+  organisationkey string
+  staffkey string
+}
+
+Ref: dim_StaffSalary.staffkey > dim_Staff.staffkey
+
+// Table dim_StaffScale
+Table dim_StaffScale {
+  external_id string
+  school_id string
+  staff_id string
+  Start_Date date
+  End_Date date
+  Scale_Point decimal
+  Pay_Scale string
+  Pay_Scale_Code string
+  Min_Amount decimal
+  Max_Amount decimal
+  Notes text
+  staffscalekey string
+  organisationkey string
+  staffkey string
+}
+
+
+Ref: dim_StaffScale.staffkey > dim_Staff.staffkey
+
+// Table dim_StaffQualification 
+// Multiple rows per employee possible
+Table dim_StaffQualification {
+  external_id string
+  school_id string
+  staff_id string
+  Title string
+  Qualification string
+  Date_Awarded date
+  Level string  
+  Comments string  
+  First_Subject string  
+  Second_Subject string  
+  Degree_Class string  
+  Country_of_Origin string 
+  Verified boolean
+  staffqualificationkey string
+  organisationkey string
+  staffkey string
+}
+
+Ref: dim_StaffQualification.staffkey > dim_Staff.staffkey
+
+// Table dim_StaffEmploymentCheck 
+// Multiple rows per employee possible
+Table dim_StaffEmploymentCheck {
+  external_id string
+  school_id string
+  staff_id string
+  Type string
+  Clearance_Date date
+  Expiry_Date date
+  Reference_Number string  // nullable
+  Document_Number string  // nullable
+  Notes string  // nullable
+  Authenticated_By string  // nullable
+  staffemploymentcheckkey string
+  organisationkey string
+  staffkey string
+}
+
+Ref: dim_StaffEmploymentCheck.staffkey > dim_Staff.staffkey
+
+
+
+/*
+=====================================================================
+📅 Schema Update Log — 13/05/2025
+=====================================================================
+Summary of schema updates made to align dbdiagram structure with
+PySpark processing logic. 
+
+---------------------------------------------------------------------
+🧠 Tables Updated
+---------------------------------------------------------------------
+1. dim_Student
+   - Added fields: addresskey, Current_Year, Year_Group, external_id, Sex, Is_Deleted
+
+2. dim_Organisation
+   - Added field: unique_key
+
+3. dim_StudentExtended
+   - Added fields: Year_Group, Current_NC_Year, Is_Current, Postcode
+
+4. fact_AttendanceSession
+   - Added fields: school_id, unique_key, full set of is_* flags
+
+5. fact_AttendanceLesson
+   - Added fields: unique_key, school_id, period_instance_id, lesson_id,
+     start_time, end_time, Subject, is_* flags
+
+6. fact_Behaviour
+   - Removed fields: all outcome-related fields (deprecated)
+   - Adjusted types: aligned with PySpark type specifications
+
+7. fact_Achievement
+   - Removed fields: unique_student_id, datekey, action, action_date, Parents_Notified
+   - Adjusted types: Achievement_Date, last_updated → varchar (was datetime)
+
+8. fact_AttendanceSummary
+   - Adjusted types: ID fields → varchar, percentage fields → decimal(10,0)
+   - Added field: Attendance_Mark_String
+   - Retained with comment: Percentage_Missing
+
+---------------------------------------------------------------------
+🔗 Relationships
+---------------------------------------------------------------------
+- All foreign key references (e.g., dim_Student, dim_Organisation) 
+  retained as originally defined.
+
+---------------------------------------------------------------------
+📌 Notes
+---------------------------------------------------------------------
+- Field-level comments updated to reflect data sources, format variations,
+  and PySpark transformation logic.
+- PySpark to dbdiagram mapping:
+    - StringType → varchar
+    - IntegerType → integer
+    - BooleanType → boolean
+    - TimestampNTZType → datetime (or varchar for raw data)
+=====================================================================
+*/
