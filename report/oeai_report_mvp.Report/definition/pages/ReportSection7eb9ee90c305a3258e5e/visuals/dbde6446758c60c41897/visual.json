@@ -1,0 +1,147 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "dbde6446758c60c41897",
+  "position": {
+    "x": 294.99605367008684,
+    "y": 107.08760852407261,
+    "z": 18000,
+    "height": 71.728492501973165,
+    "width": 965.808997632202,
+    "tabOrder": 14000
+  },
+  "visual": {
+    "visualType": "multiRowCard",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentCalculated"
+                    }
+                  },
+                  "Property": "Full_Name"
+                }
+              },
+              "queryRef": "dim_StudentCalculated.Full_Name",
+              "nativeQueryRef": "Full_Name",
+              "displayName": "Full Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_NCYearGroup"
+                    }
+                  },
+                  "Property": "std_Year_Group"
+                }
+              },
+              "queryRef": "dim_NCYearGroup.std_Year_Group",
+              "nativeQueryRef": "Year Group",
+              "displayName": "Year Group"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_StudentCalculated"
+                  }
+                },
+                "Property": "Full_Name"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataLabels": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "21D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e2d4c804430ebc4045c3",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_StudentCalculated"
+              }
+            },
+            "Property": "Full_Name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b7aede764f7ddd9a016e",
+        "displayName": "Year Group",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_NCYearGroup"
+              }
+            },
+            "Property": "std_Year_Group"
+          }
+        },
+        "type": "Categorical"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  }
+}

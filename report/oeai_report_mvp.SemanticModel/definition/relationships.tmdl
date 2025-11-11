@@ -1,0 +1,86 @@
+relationship 44fa07af-9808-4e3e-b4b8-b6408a335198
+	fromColumn: dim_Student.organisationkey
+	toColumn: dim_Organisation.organisationkey
+
+relationship d157ba7a-a476-4ae1-b331-90a83624748c
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: dim_Student.studentkey
+	toColumn: dim_StudentExtended.studentkey
+
+relationship bb0fca04-09b8-408f-8665-f3f4dec6869d
+	fromColumn: dim_GroupMembership.studentkey
+	toColumn: dim_Student.studentkey
+
+relationship 091496b9-1ea4-4aea-bd1f-422fe9682eb9
+	crossFilteringBehavior: bothDirections
+	fromColumn: dim_GroupMembership.groupkey
+	toColumn: dim_Group.groupkey
+
+relationship a4141af5-b53a-2e31-6dbb-2358d2fa06ee
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: dim_StudentCalculated.studentkey
+	toColumn: dim_Student.studentkey
+
+relationship bfb60af6-6c5d-c459-44fc-912b0ca035d6
+	fromColumn: dim_StudentAcademicYearGroup.Year_Group
+	toColumn: dim_NCYearGroup.Year_Group_Description
+
+relationship AutoDetected_624c6a9f-a60f-452e-9248-80bad481f8b7
+	fromColumn: fact_Behaviour.studentacademicyeargroupkey
+	toColumn: dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+
+relationship AutoDetected_d58f00eb-6963-4cfa-aae6-14765a7af461
+	fromColumn: fact_Achievement.studentacademicyeargroupkey
+	toColumn: dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+
+relationship AutoDetected_5927c865-ab54-468b-a629-db27a96b7903
+	fromColumn: fact_Exclusion.studentacademicyeargroupkey
+	toColumn: dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+
+relationship 5fb575c8-81cb-ff8b-0857-9bc9f1e5910f
+	fromColumn: fact_Achievement.Achievement_Date
+	toColumn: dim_Date.FullDate
+
+relationship 282c5622-46d6-2aef-3c11-90566e30b586
+	fromColumn: fact_Behaviour.Incident_Date
+	toColumn: dim_Date.FullDate
+
+relationship 390950b1-8c54-133b-40d2-b55fa283d3d6
+	fromColumn: fact_AttendanceSummary.studentacademicyeargroupkey
+	toColumn: dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+
+relationship 03d3e216-505c-bb16-fd00-42240bb77001
+	crossFilteringBehavior: bothDirections
+	fromColumn: dim_StudentAcademicYearGroup.studentkey
+	toColumn: dim_Student.studentkey
+
+relationship AutoDetected_1e0d2c92-83d5-4ca3-b7be-83013d08e3c8
+	fromColumn: fact_AttendanceSession.studentacademicyeargroupkey
+	toColumn: dim_StudentAcademicYearGroup.studentacademicyeargroupkey
+
+relationship 5348b218-948d-395f-3fc0-fa10a1f1fef1
+	fromColumn: fact_AttendanceSession.Date
+	toColumn: dim_Date.FullDate
+
+relationship a73b4352-0803-0934-3b1f-3cf82b0be6b9
+	fromColumn: fact_Exclusion.Start_Date
+	toColumn: dim_Date.FullDate
+
+relationship facac27a-b169-1c17-a71c-78ad5dff63cd
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: dim_StudentAcademicYearGroup.Academic_Year
+	toColumn: dim_Date.AcademicYear
+
+relationship ce7cfc8d-7e51-817c-6c1d-d892329c43c4
+	crossFilteringBehavior: bothDirections
+	fromColumn: dim_ExclusionReason.external_id
+	toColumn: fact_Exclusion.external_id
+
+relationship 4f49178e-d811-977e-09d1-6330eb91c899
+	crossFilteringBehavior: bothDirections
+	fromColumn: dim_ExclusionReason.Reason_Code
+	toColumn: dim_std_ExclusionReason.Suspension_Reason
+

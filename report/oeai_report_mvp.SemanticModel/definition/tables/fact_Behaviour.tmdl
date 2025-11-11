@@ -1,0 +1,100 @@
+table fact_Behaviour
+	lineageTag: 7ac5d140-8b80-4472-8960-4e58d8afe1e1
+
+	column Incident_Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e410075e-afff-4cd6-84aa-bd6809a8ded4
+		summarizeBy: none
+		sourceColumn: Incident_Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Points
+		dataType: int64
+		formatString: 0
+		lineageTag: f18de785-ff26-461b-ab8f-e947f04d488d
+		summarizeBy: sum
+		sourceColumn: Points
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: b95fd42f-e1cc-4c3a-8f1a-36c076eebe6b
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentkey
+		dataType: string
+		lineageTag: 0470b3cf-4270-44fb-af80-6b8d99efaaa9
+		summarizeBy: none
+		sourceColumn: studentkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Academic_Year
+		dataType: string
+		lineageTag: 561cf6cb-dd67-471c-bf36-70da8d0864a7
+		summarizeBy: none
+		sourceColumn: Academic_Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentacademicyeargroupkey
+		dataType: int64
+		formatString: 0
+		lineageTag: 36695f9b-0d4d-4d80-8a31-2272b59b2082
+		summarizeBy: none
+		sourceColumn: studentacademicyeargroupkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column datekey
+		dataType: string
+		lineageTag: baa98363-a193-4d3e-8160-1283b8b3a93f
+		summarizeBy: none
+		sourceColumn: datekey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Action
+		dataType: string
+		lineageTag: 1c95aa01-0b12-4daf-8471-bf64d470b5c1
+		summarizeBy: none
+		sourceColumn: Action
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_Behaviour = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/fact_Behaviour",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

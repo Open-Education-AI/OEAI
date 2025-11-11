@@ -1,0 +1,402 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "3083cc6d339da00c54e5",
+  "position": {
+    "x": 648,
+    "y": 528,
+    "z": 6000,
+    "height": 176,
+    "width": 616,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentCalculated"
+                    }
+                  },
+                  "Property": "Full_Name"
+                }
+              },
+              "queryRef": "dim_StudentCalculated.Full_Name",
+              "nativeQueryRef": "Full Name",
+              "displayName": "Full Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_Exclusion"
+                    }
+                  },
+                  "Property": "Start_Date"
+                }
+              },
+              "queryRef": "fact_Exclusion.Start_Date",
+              "nativeQueryRef": "Start Date",
+              "displayName": "Start Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_NCYearGroup"
+                    }
+                  },
+                  "Property": "std_Year_Group"
+                }
+              },
+              "queryRef": "dim_NCYearGroup.std_Year_Group",
+              "nativeQueryRef": "Year Group",
+              "displayName": "Year Group"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_Exclusion"
+                        }
+                      },
+                      "Property": "Days"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_Exclusion.Days)",
+              "nativeQueryRef": "Days"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentCalculated"
+                    }
+                  },
+                  "Property": "Is_PP_String"
+                }
+              },
+              "queryRef": "dim_StudentCalculated.Is_PP_String",
+              "nativeQueryRef": "PP1",
+              "displayName": "PP"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentExtended"
+                    }
+                  },
+                  "Property": "SEN Status"
+                }
+              },
+              "queryRef": "dim_StudentExtended.SEN Status",
+              "nativeQueryRef": "SEND1",
+              "displayName": "SEND"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentExtended"
+                    }
+                  },
+                  "Property": "Free_School_Meals"
+                }
+              },
+              "queryRef": "dim_StudentExtended.Free_School_Meals",
+              "nativeQueryRef": "FSM",
+              "displayName": "FSM"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_StudentExtended"
+                    }
+                  },
+                  "Property": "Ethnicity"
+                }
+              },
+              "queryRef": "dim_StudentExtended.Ethnicity",
+              "nativeQueryRef": "Ethnicity1"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_Exclusion"
+                    }
+                  },
+                  "Property": "Type"
+                }
+              },
+              "queryRef": "fact_Exclusion.Type",
+              "nativeQueryRef": "Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_std_ExclusionReason"
+                    }
+                  },
+                  "Property": "std_Reason_Description"
+                }
+              },
+              "queryRef": "dim_std_ExclusionReason.std_Reason_Description",
+              "nativeQueryRef": "std_Reason_Description"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_Exclusion"
+                  }
+                },
+                "Property": "Start_Date"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "53.77847417477607D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(fact_Exclusion.Days)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "60.18269559827597D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_StudentExtended.Free_School_Meals"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "203.48183528727736D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_StudentExtended.Ethnicity"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Behaviour Points by Year Group'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Tahoma'"
+                }
+              }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.3
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "divider": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filter4c6fd2a391b3e148dbec",
+        "displayName": "Academic Year",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_Exclusion"
+              }
+            },
+            "Property": "Academic_Year"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      }
+    ]
+  }
+}

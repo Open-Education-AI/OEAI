@@ -1,0 +1,141 @@
+table dim_GroupMembership
+	lineageTag: 40fae861-5d82-47cb-908a-fec7969697f1
+
+	column Group_Name
+		dataType: string
+		lineageTag: 4f8d6446-444b-4652-876a-be63d348d2a2
+		summarizeBy: none
+		sourceColumn: Group_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column school_id
+		dataType: string
+		lineageTag: 741d4ba6-3c17-4a4f-94c9-8c2118a02a7d
+		summarizeBy: none
+		sourceColumn: school_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column student_id
+		dataType: string
+		lineageTag: 5ab184f3-0d5f-4442-af0a-8d0c4454e327
+		summarizeBy: none
+		sourceColumn: student_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column unique_key
+		dataType: string
+		lineageTag: cb9d8809-ca5d-4e4d-a4c4-1dd0007ed1b6
+		summarizeBy: none
+		sourceColumn: unique_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column groupmembershipkey
+		dataType: string
+		lineageTag: b3daa063-d929-4427-8184-ac5fee86950c
+		summarizeBy: none
+		sourceColumn: groupmembershipkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column groupkey
+		dataType: string
+		lineageTag: 52167939-e377-4fa2-8f70-62674e1f0cf0
+		summarizeBy: none
+		sourceColumn: groupkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column organisationkey
+		dataType: string
+		lineageTag: 7b1f0c4b-dee1-4dd0-a766-f92100bf50ff
+		summarizeBy: none
+		sourceColumn: organisationkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentkey
+		dataType: string
+		lineageTag: d7d0b1f4-aa1a-4e13-ae1c-7be38edba2d2
+		summarizeBy: none
+		sourceColumn: studentkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column external_id
+		dataType: string
+		lineageTag: 4d7b69f7-63c0-4cab-b433-5a8fc09091b9
+		summarizeBy: none
+		sourceColumn: external_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Start_Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0be9593e-f3dd-4e73-b706-70df0e712def
+		summarizeBy: none
+		sourceColumn: Start_Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column End_Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: feb75535-dcfb-493b-9ede-1f038628c16c
+		summarizeBy: none
+		sourceColumn: End_Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Group_Type
+		dataType: string
+		lineageTag: 4df14449-3c20-4e06-a736-ab0e36f2886f
+		summarizeBy: none
+		sourceColumn: Group_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column group_mis_id
+		dataType: string
+		lineageTag: 4a43d02d-a4ff-4377-9330-235ac6f7b572
+		summarizeBy: none
+		sourceColumn: group_mis_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_GroupMembership = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/dim_GroupMembership",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

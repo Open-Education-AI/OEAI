@@ -1,0 +1,403 @@
+table fact_AttendanceSummary
+	lineageTag: c3896bb1-1cc2-40ad-aa70-5a3d04a65fbf
+
+	measure '% Unauth' = SUM([Unauthorised_Absences])/SUM([Possible_marks])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 6aa101d4-cfc9-4c6f-ac18-9ea03ee912ca
+
+	measure '% Auth' = sum([Authorised_Absences])/sum([Possible_marks])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: fe9ca0e5-0a2a-400e-a633-fec0f237ded4
+
+	measure '% Attendance' = sum([Attendance_Marks])/sum([Possible_marks])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 10facb39-d878-44d0-924a-526aeb177943
+
+	measure '% Missing' = SUM([Missing_Marks])/SUM([Possible_marks])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 2be6da99-d8ec-4886-9706-45a266759ac5
+
+	measure 'Previous Year % Attendance' =
+			
+			CALCULATE(
+			    [% Attendance],
+			    SAMEPERIODLASTYEAR('dim_Date'[AcademicYear])  -- Adjust based on your date table setup
+			)
+		formatString: 0
+		lineageTag: 2c77b654-65df-4d53-8774-bb2647738558
+
+	measure 'Previous Year % Attendance1' = ```
+			
+			CALCULATE(
+			    [% Attendance],
+			    FILTER(
+			        ALL('dim_Date'),
+			        'dim_Date'[AcademicYear] = 
+			            SELECTEDVALUE('dim_Date'[AcademicYear]) - 1
+			    )
+			)
+			
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 699ff851-173d-4067-8475-1e618f867558
+
+	measure 'YOY Attendance Change' = ```
+			[% Attendance] - [Previous Year % Attendance1]
+			
+			```
+		lineageTag: 9f7c35ef-8f47-4e6c-a9a0-09d7600babf6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Attendance_Not_Required
+		dataType: int64
+		formatString: 0
+		lineageTag: 6cc27ec7-5ee6-48e0-a8ed-1d7ff5c8ea6f
+		summarizeBy: sum
+		sourceColumn: Attendance_Not_Required
+
+		annotation SummarizationSetBy = Automatic
+
+	column Authorised_Absences
+		dataType: int64
+		formatString: 0
+		lineageTag: d139f051-6b3d-4413-b287-25c1437e744f
+		summarizeBy: sum
+		sourceColumn: Authorised_Absences
+
+		annotation SummarizationSetBy = Automatic
+
+	column external_id
+		dataType: string
+		lineageTag: d7707f8d-3372-4149-b927-89ea76c88074
+		summarizeBy: none
+		sourceColumn: external_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Late_After_Registration
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d2d0681-b4c3-49ef-85ef-5567b67ec4a8
+		summarizeBy: sum
+		sourceColumn: Late_After_Registration
+
+		annotation SummarizationSetBy = Automatic
+
+	column Late_Before_Registration
+		dataType: int64
+		formatString: 0
+		lineageTag: e33c22c4-f170-43ff-88a2-4f41e6745fb8
+		summarizeBy: sum
+		sourceColumn: Late_Before_Registration
+
+		annotation SummarizationSetBy = Automatic
+
+	column Present
+		dataType: int64
+		formatString: 0
+		lineageTag: 82ba0c95-e72d-4427-a6b4-10c846ff968c
+		summarizeBy: sum
+		sourceColumn: Present
+
+		annotation SummarizationSetBy = Automatic
+
+	column school_id
+		dataType: string
+		lineageTag: 4d5e0ec7-9f31-40b4-905f-8b01fa894a03
+		summarizeBy: none
+		sourceColumn: school_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column student_id
+		dataType: string
+		lineageTag: a327f2df-d11a-484c-beb2-2b8984261c9b
+		summarizeBy: none
+		sourceColumn: student_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unexplained_Absences
+		dataType: int64
+		formatString: 0
+		lineageTag: 0bbfe112-54b9-451b-a8db-8df26406ccf1
+		summarizeBy: sum
+		sourceColumn: Unexplained_Absences
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_updated
+		dataType: string
+		lineageTag: 2ec3413a-1df6-46a1-8f2d-a75694ee2b90
+		summarizeBy: none
+		sourceColumn: last_updated
+
+		annotation SummarizationSetBy = Automatic
+
+	column organisationkey
+		dataType: string
+		lineageTag: b8e912ab-5d7f-466e-8c9b-3973bfa25672
+		summarizeBy: none
+		sourceColumn: organisationkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column attendancesummarykey
+		dataType: string
+		lineageTag: 86dc5675-6ab0-4e5f-9c19-6c7530a868bc
+		summarizeBy: none
+		sourceColumn: attendancesummarykey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Percentage_Attendance
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f7ab69ec-4a71-45f3-89b9-bacbd6c260b1
+		summarizeBy: average
+		sourceColumn: Percentage_Attendance
+
+		annotation SummarizationSetBy = User
+
+	column Unauthorised_Absences
+		dataType: int64
+		formatString: 0
+		lineageTag: e4ed71f7-22aa-4996-b4c4-b27f898d5fb5
+		summarizeBy: sum
+		sourceColumn: Unauthorised_Absences
+
+		annotation SummarizationSetBy = Automatic
+
+	column Attendance_Mark_String
+		dataType: string
+		lineageTag: 0bfc6305-1046-4f0f-8dee-dea8f03852d1
+		summarizeBy: none
+		sourceColumn: Attendance_Mark_String
+
+		annotation SummarizationSetBy = Automatic
+
+	column Percentage_Authorised_Absence
+		dataType: double
+		lineageTag: 7a93a6eb-1ec6-4eed-87de-e6b9f2ba2225
+		summarizeBy: sum
+		sourceColumn: Percentage_Authorised_Absence
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Percentage_Unauthorised_Absence
+		dataType: double
+		lineageTag: 493aaaa6-6095-4ad6-84ca-d8dc57fa425b
+		summarizeBy: sum
+		sourceColumn: Percentage_Unauthorised_Absence
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Percentage_Unexplained_Absence
+		dataType: double
+		lineageTag: 4b9bdd2e-aa34-4cc8-86bf-daea5923a74e
+		summarizeBy: sum
+		sourceColumn: Percentage_Unexplained_Absence
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Is_Persistently_Absent
+		dataType: int64
+		formatString: 0
+		lineageTag: 6146a778-27c0-48a8-a066-ea77e146832d
+		summarizeBy: sum
+		sourceColumn: Is_Persistently_Absent
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Severely_Absent
+		dataType: int64
+		formatString: 0
+		lineageTag: ef347923-1f75-4144-8662-92c124793cc4
+		summarizeBy: sum
+		sourceColumn: Is_Severely_Absent
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentkey
+		dataType: string
+		lineageTag: 11e2b73c-51bc-45b0-ab67-e960ebf42ce3
+		summarizeBy: none
+		sourceColumn: studentkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column under_50
+		dataType: int64
+		formatString: 0
+		lineageTag: 7534a4b4-3fbd-4e33-988f-716c57b8a621
+		summarizeBy: sum
+		sourceColumn: under_50
+
+		annotation SummarizationSetBy = Automatic
+
+	column 50_to_70
+		dataType: int64
+		formatString: 0
+		lineageTag: c42a1e02-b274-4440-9466-a0bfcc82ffa4
+		summarizeBy: sum
+		sourceColumn: 50_to_70
+
+		annotation SummarizationSetBy = Automatic
+
+	column 70_to_80
+		dataType: int64
+		formatString: 0
+		lineageTag: c9e3f65b-bfee-49f3-a95f-3b1b9c217326
+		summarizeBy: sum
+		sourceColumn: 70_to_80
+
+		annotation SummarizationSetBy = Automatic
+
+	column 80_to_90
+		dataType: int64
+		formatString: 0
+		lineageTag: a378baa0-a64e-4ae3-a491-a661331f7e9e
+		summarizeBy: sum
+		sourceColumn: 80_to_90
+
+		annotation SummarizationSetBy = Automatic
+
+	column 90_to_92
+		dataType: int64
+		formatString: 0
+		lineageTag: afffd0ff-0b29-437f-a89b-4099f94d1e1b
+		summarizeBy: sum
+		sourceColumn: 90_to_92
+
+		annotation SummarizationSetBy = Automatic
+
+	column 92_to_95
+		dataType: int64
+		formatString: 0
+		lineageTag: feae19e7-9fae-4907-a3e8-f1939192e93a
+		summarizeBy: sum
+		sourceColumn: 92_to_95
+
+		annotation SummarizationSetBy = Automatic
+
+	column 95_to_98
+		dataType: int64
+		formatString: 0
+		lineageTag: 13280d23-d4d8-4342-9bcf-064480e09a4c
+		summarizeBy: sum
+		sourceColumn: 95_to_98
+
+		annotation SummarizationSetBy = Automatic
+
+	column above_98
+		dataType: int64
+		formatString: 0
+		lineageTag: 28e0e0d0-5312-4d13-a022-8f114fcef6c1
+		summarizeBy: sum
+		sourceColumn: above_98
+
+		annotation SummarizationSetBy = Automatic
+
+	column Attendance_Bin
+		dataType: string
+		lineageTag: 93490cc0-78d5-44f3-af38-5cae03d23f64
+		summarizeBy: none
+		sourceColumn: Attendance_Bin
+
+		annotation SummarizationSetBy = Automatic
+
+	column Possible_Marks
+		dataType: int64
+		formatString: 0
+		lineageTag: a31a2cd2-66e9-4295-82e0-853e2a81d6d4
+		summarizeBy: sum
+		sourceColumn: Possible_Marks
+
+		annotation SummarizationSetBy = Automatic
+
+	column Missing_Marks
+		dataType: int64
+		formatString: 0
+		lineageTag: 134406fd-70c6-425b-a989-b98f6db52f1a
+		summarizeBy: sum
+		sourceColumn: Missing_Marks
+
+		annotation SummarizationSetBy = Automatic
+
+	column Approved_Educational_Activity
+		dataType: int64
+		formatString: 0
+		lineageTag: cfa8b2bc-bced-47cb-8487-73a2d71db6fb
+		summarizeBy: sum
+		sourceColumn: Approved_Educational_Activity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Percentage_Missing
+		dataType: double
+		formatString: 0
+		lineageTag: 0f9b6c0a-a6cd-4a6c-829a-f2525621e56f
+		summarizeBy: sum
+		sourceColumn: Percentage_Missing
+
+		annotation SummarizationSetBy = Automatic
+
+	column Attendance_Marks = fact_AttendanceSummary[Present]+fact_AttendanceSummary[Approved_Educational_Activity]
+		formatString: 0
+		lineageTag: 611a93c2-2880-4da2-8558-fbefee034a97
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Academic_Year
+		dataType: string
+		lineageTag: 11728526-19cd-4c0b-ac07-19c39a0865c0
+		summarizeBy: none
+		sourceColumn: Academic_Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentacademicyeargroupkey
+		dataType: int64
+		formatString: 0
+		lineageTag: 0f7a9643-da8d-43f5-a4cf-7e49726711bc
+		summarizeBy: none
+		sourceColumn: studentacademicyeargroupkey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_AttendanceSummary = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/fact_AttendanceSummary",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

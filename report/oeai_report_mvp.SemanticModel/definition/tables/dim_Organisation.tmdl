@@ -1,0 +1,134 @@
+table dim_Organisation
+	lineageTag: bac4f16a-3d88-4dfc-b933-5d362b362eb7
+
+	measure Organisation_Selected =
+			SELECTEDVALUE
+			(dim_Organisation[Organisation_Name],
+			"Multiple Schools Selected"
+			)
+		lineageTag: 9eaf90e5-72f3-49e1-ac49-44022469509a
+
+	column Establishment_Number
+		dataType: string
+		lineageTag: aa2f9966-4dae-426d-8355-c35ad3f79138
+		summarizeBy: none
+		sourceColumn: Establishment_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column external_id
+		dataType: string
+		lineageTag: 0f3f140f-5c54-4382-922e-9b60b2579c7d
+		summarizeBy: none
+		sourceColumn: external_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column LA_Code
+		dataType: string
+		lineageTag: bd5164cb-b5e0-4649-82a8-768a18d99482
+		summarizeBy: none
+		sourceColumn: LA_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Organisation_Name
+		dataType: string
+		lineageTag: e5e19fdb-e92a-4314-9ef1-8baa9ef9b292
+		summarizeBy: none
+		sourceColumn: Organisation_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Organisation_Type
+		dataType: string
+		lineageTag: 7b18d9eb-7361-4b2b-bddb-8f9d2632be99
+		summarizeBy: none
+		sourceColumn: Organisation_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column unique_key
+		dataType: string
+		lineageTag: 557b4cad-6e64-4e55-907b-5329076a0b6e
+		summarizeBy: none
+		sourceColumn: unique_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column URN
+		dataType: string
+		lineageTag: a500b89e-36be-42f2-a82b-ebc80d0548e6
+		summarizeBy: none
+		sourceColumn: URN
+
+		annotation SummarizationSetBy = Automatic
+
+	column organisationkey
+		dataType: string
+		lineageTag: 6ecc1ed9-28ed-4f2c-80b1-e687f1f72426
+		summarizeBy: none
+		sourceColumn: organisationkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column addresskey
+		dataType: string
+		lineageTag: c176cd46-3c2c-4f0c-8fe9-a2f3703dead8
+		summarizeBy: none
+		sourceColumn: addresskey
+
+		annotation SummarizationSetBy = Automatic
+
+	column UKPRN
+		dataType: string
+		lineageTag: 7cbd74c3-995d-41d0-8a19-c64eabdd2ce3
+		summarizeBy: none
+		sourceColumn: UKPRN
+
+		annotation SummarizationSetBy = Automatic
+
+	column Organisation_Status
+		dataType: string
+		lineageTag: e35a69b5-29b2-4afa-bcbf-da1d6265105c
+		summarizeBy: none
+		sourceColumn: Organisation_Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_updated
+		dataType: string
+		lineageTag: a6d5770d-312d-4dc3-a32e-27e412d573e4
+		summarizeBy: none
+		sourceColumn: last_updated
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_Organisation = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/dim_Organisation",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

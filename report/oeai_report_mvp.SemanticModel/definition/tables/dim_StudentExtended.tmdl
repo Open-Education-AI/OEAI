@@ -1,0 +1,362 @@
+table dim_StudentExtended
+	lineageTag: 2b2da7a3-ae11-415e-b79f-53d1f2ec85f8
+
+	measure In_Care_Count = COUNTROWS(FILTER(dim_StudentExtended, dim_StudentExtended[In_LEA_Care] = TRUE()))
+		formatString: 0
+		lineageTag: 635d5d46-c61c-41c2-8f26-b3796cd9d921
+
+	column unique_key
+		dataType: string
+		lineageTag: d671d451-1f86-463e-9c93-7f736d1f91ee
+		summarizeBy: none
+		sourceColumn: unique_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column English_As_Additional_Language
+		dataType: string
+		lineageTag: 1e802916-5598-45f8-807f-afd3aab19132
+		summarizeBy: none
+		sourceColumn: English_As_Additional_Language
+
+		annotation SummarizationSetBy = Automatic
+
+	column Enrolment_Status
+		dataType: string
+		lineageTag: f9804b76-1f53-40f5-9005-2c503d283965
+		summarizeBy: none
+		sourceColumn: Enrolment_Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ethnicity
+		dataType: string
+		lineageTag: 92137517-0da6-41b0-b585-75c240589255
+		summarizeBy: none
+		sourceColumn: Ethnicity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ethnicity_Code
+		dataType: string
+		lineageTag: 8cd2f5f2-7ddd-4f3d-8427-5518a86e7409
+		summarizeBy: none
+		sourceColumn: Ethnicity_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ever_In_Care
+		dataType: string
+		lineageTag: 3f4eb459-8d6b-416e-8867-4816be6e89f4
+		summarizeBy: none
+		sourceColumn: Ever_In_Care
+
+		annotation SummarizationSetBy = Automatic
+
+	column First_Language
+		dataType: string
+		lineageTag: 2e954aca-0bc3-473c-977a-6334b885974b
+		summarizeBy: none
+		sourceColumn: First_Language
+
+		annotation SummarizationSetBy = Automatic
+
+	column Free_School_Meals
+		dataType: string
+		lineageTag: f5fc9a20-ea6a-4cb7-a441-4b5e891a82e3
+		summarizeBy: none
+		sourceColumn: Free_School_Meals
+
+		annotation SummarizationSetBy = Automatic
+
+	column Free_School_Meals_6
+		dataType: string
+		lineageTag: 6a2f80a2-864e-48db-ac2b-208f8b1d2640
+		summarizeBy: none
+		sourceColumn: Free_School_Meals_6
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gifted_And_Talented_Status
+		dataType: string
+		lineageTag: 7d5646c5-6738-4c91-b986-08544e79789e
+		summarizeBy: none
+		sourceColumn: Gifted_And_Talented_Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column In_LEA_Care
+		dataType: string
+		lineageTag: 66b859b7-a7f2-42aa-b94a-d3b125119239
+		summarizeBy: none
+		sourceColumn: In_LEA_Care
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pupil_Premium_Indicator
+		dataType: string
+		lineageTag: 8e852bae-a49f-4271-a371-bfc380380f9f
+		summarizeBy: none
+		sourceColumn: Pupil_Premium_Indicator
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEN_Status
+		dataType: string
+		lineageTag: aad1b53d-73c4-4f5e-8827-bcf79aa35a06
+		summarizeBy: none
+		sourceColumn: SEN_Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column organisationkey
+		dataType: string
+		lineageTag: 2304ac55-7a6f-49ba-be76-708f55f7bd79
+		summarizeBy: none
+		sourceColumn: organisationkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentextendedkey
+		dataType: string
+		lineageTag: e99106a3-ef51-4edc-91a7-0b4c56c52c4c
+		summarizeBy: none
+		sourceColumn: studentextendedkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Admission_Date
+		dataType: string
+		lineageTag: b27ccfe6-bfc8-4fd1-a402-dcf524f7b830
+		summarizeBy: none
+		sourceColumn: Admission_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column school_id
+		dataType: string
+		lineageTag: 2d907459-a21a-4dd6-ac7b-2a9c1769a4ab
+		summarizeBy: none
+		sourceColumn: school_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column student_id
+		dataType: string
+		lineageTag: f91e35ca-c8fa-495d-ab4b-6825e382b03f
+		summarizeBy: none
+		sourceColumn: student_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentkey
+		dataType: string
+		lineageTag: 1811bb79-59a3-4826-a3ad-229470b95e5d
+		summarizeBy: none
+		sourceColumn: studentkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Child_In_Need
+		dataType: string
+		lineageTag: 732df2e9-e474-4490-9deb-6ac63b6c719b
+		summarizeBy: none
+		sourceColumn: Child_In_Need
+
+		annotation SummarizationSetBy = Automatic
+
+	column Child_Protection_Plan
+		dataType: string
+		lineageTag: 45cb95a8-2240-4072-a05d-411264942518
+		summarizeBy: none
+		sourceColumn: Child_Protection_Plan
+
+		annotation SummarizationSetBy = Automatic
+
+	column English_As_Additional_Language_Status
+		dataType: string
+		lineageTag: 74322e75-335e-436e-8614-9ffa8bc449f8
+		summarizeBy: none
+		sourceColumn: English_As_Additional_Language_Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leaving_Date
+		dataType: string
+		lineageTag: 64213aff-1ee8-4716-995e-978bc4f08839
+		summarizeBy: none
+		sourceColumn: Leaving_Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SEN Status' =
+			
+			SWITCH(
+			    dim_StudentExtended[Sen_Status],
+			    "E", "E",
+			    "K", "K",
+			    "N"
+			)
+		lineageTag: 6ab7034d-d873-431c-b96c-46321c996772
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Student Status' = IF(ISBLANK(dim_StudentExtended[Leaving_Date]), "On Roll", "Leaver")
+		lineageTag: 7b2f6a63-cd58-43c5-99cc-4e2a3478dc47
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year_Group
+		dataType: string
+		lineageTag: 4a32f108-8c2d-45da-97c8-8cb741fea9c7
+		summarizeBy: none
+		sourceColumn: Year_Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column Current_NC_Year
+		dataType: string
+		lineageTag: b0d3cd10-57c7-4840-90d1-13c4e83f91fe
+		summarizeBy: none
+		sourceColumn: Current_NC_Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Current
+		dataType: string
+		lineageTag: 2f9dc09f-5ea1-48d7-9ab8-f24836fcd239
+		summarizeBy: none
+		sourceColumn: Is_Current
+
+		annotation SummarizationSetBy = Automatic
+
+	column Postcode
+		dataType: string
+		lineageTag: 73b1f148-c021-43ee-8ee6-39b94fb421aa
+		summarizeBy: none
+		sourceColumn: Postcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Admission_Error_Flag = ```
+			IF(
+			    ISBLANK(dim_StudentExtended[Leaving_Date]),
+			    "No Error",
+			    IF(dim_StudentExtended[Admission_Date] > dim_StudentExtended[Leaving_Date],
+			       "Error: Admission After Leaving",
+			       "No Error"
+			    )
+			)
+			
+			```
+		lineageTag: 12ff1ef5-5ced-4914-800d-68e54a2a70f8
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pupil_Premium_Eligible
+		dataType: string
+		lineageTag: 155df4a8-a006-4289-a601-a66f33383839
+		summarizeBy: none
+		sourceColumn: Pupil_Premium_Eligible
+
+		annotation SummarizationSetBy = Automatic
+
+	column Service_Child_Indicator
+		dataType: string
+		lineageTag: d1676478-890b-4382-b143-ba79523c801c
+		summarizeBy: none
+		sourceColumn: Service_Child_Indicator
+
+		annotation SummarizationSetBy = Automatic
+
+	column Email
+		dataType: string
+		lineageTag: d13b8dfa-2484-4678-ad11-28b8c89179bb
+		summarizeBy: none
+		sourceColumn: Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column Primary_SEND_Need
+		dataType: string
+		lineageTag: 8c04d769-f142-4766-843a-7759967d353a
+		summarizeBy: none
+		sourceColumn: Primary_SEND_Need
+
+		annotation SummarizationSetBy = Automatic
+
+	column Religion
+		dataType: string
+		lineageTag: 8365c773-3679-430e-a657-1c5072ad7984
+		summarizeBy: none
+		sourceColumn: Religion
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDACI_Score
+		dataType: double
+		lineageTag: ef8c5ba4-0043-405c-8001-3e12fe6f2c49
+		summarizeBy: sum
+		sourceColumn: IDACI_Score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IDACI_Rank
+		dataType: int64
+		formatString: 0
+		lineageTag: 4a33c814-30d6-4dd7-8f2b-c6edabedd975
+		summarizeBy: sum
+		sourceColumn: IDACI_Rank
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDACI_Decile
+		dataType: int64
+		formatString: 0
+		lineageTag: db52f566-c3b0-4a68-bd9c-9f49d956b7f8
+		summarizeBy: sum
+		sourceColumn: IDACI_Decile
+
+		annotation SummarizationSetBy = Automatic
+
+	column LSOA_Code
+		dataType: string
+		lineageTag: 8093914e-b2ed-49f0-bf65-8a6c211b1e66
+		summarizeBy: none
+		sourceColumn: LSOA_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_StudentExtended = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/dim_StudentExtended",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

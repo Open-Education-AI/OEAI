@@ -1,0 +1,167 @@
+expression 'Sample File (dim_NCYearGroup)' =
+		let
+		    Source = AzureStorage.DataLake(Path_Reference & "/dim_NCYearGroup.csv"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 36b7665d-3c06-40e2-abd8-4e2bcbead8b5
+	queryGroup: 'Reference\Transform File from dim_NCYearGroup\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Parameter (dim_NCYearGroup)' = #"Sample File (dim_NCYearGroup)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (dim_NCYearGroup)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: e0b144b2-18c1-4048-a7eb-c635fe2d7cbc
+	queryGroup: 'Reference\Transform File from dim_NCYearGroup\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Transform Sample File (dim_NCYearGroup)' =
+		let
+		    Source = Csv.Document(#"Parameter (dim_NCYearGroup)",[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: d3eaefaa-c481-4f97-b958-6f903dd87463
+	queryGroup: 'Reference\Transform File from dim_NCYearGroup'
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Transform File (dim_NCYearGroup)' =
+		let
+		    Source = (#"Parameter (dim_NCYearGroup)" as binary) => let
+		    Source = Csv.Document(#"Parameter (dim_NCYearGroup)",[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (dim_NCYearGroup)""}" ]
+	lineageTag: a794c2c3-a059-4df8-bacb-0833e927bf01
+	queryGroup: 'Reference\Transform File from dim_NCYearGroup\Helper Queries'
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Sample File (dim_Date)' =
+		let
+		    Source = AzureStorage.DataLake(Path_Reference & "/dim_Date.csv"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 7dde7d5e-ce21-4b8e-abff-9e6a2b3c4563
+	queryGroup: 'Reference\Transform File from dim_Date\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression 'Parameter (dim_Date)' = #"Sample File (dim_Date)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (dim_Date)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: fdefd6c1-22d5-4f15-a1c4-c0765e7ae9a5
+	queryGroup: 'Reference\Transform File from dim_Date\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Transform Sample File (dim_Date)' =
+		let
+		    Source = Csv.Document(#"Parameter (dim_Date)",[Delimiter=",", Columns=56, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+	lineageTag: c57a3658-0bfe-4d34-8238-98d86a78d66c
+	queryGroup: 'Reference\Transform File from dim_Date'
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Transform File (dim_Date)' =
+		let
+		    Source = (#"Parameter (dim_Date)" as binary) => let
+		    Source = Csv.Document(#"Parameter (dim_Date)",[Delimiter=",", Columns=56, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		in
+		    #"Promoted Headers"
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (dim_Date)""}" ]
+	lineageTag: f31af3aa-6829-4c26-98a1-d982fb4bb4c8
+	queryGroup: 'Reference\Transform File from dim_Date\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Sample File (dim_std_ExclusionReason)' =
+		let
+		    Source = AzureStorage.DataLake(Path_Reference & "/dim_std_ExclusionReason.csv"),
+		    Navigation1 = Source{0}[Content]
+		in
+		    Navigation1
+	lineageTag: 59ff1619-6c9c-4e51-8985-cd4b680af9ff
+	queryGroup: 'Reference\Transform File from dim_std_ExclusionReason\Helper Queries'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Binary
+
+expression 'Parameter (dim_std_ExclusionReason)' = #"Sample File (dim_std_ExclusionReason)" meta [IsParameterQuery=true, BinaryIdentifier=#"Sample File (dim_std_ExclusionReason)", Type="Binary", IsParameterQueryRequired=true]
+	lineageTag: 41578577-6adf-4c25-a510-4f859557d7f7
+	queryGroup: 'Reference\Transform File from dim_std_ExclusionReason\Helper Queries'
+
+	annotation PBI_ResultType = Binary
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Transform Sample File (dim_std_ExclusionReason)' =
+		let
+		    Source = Csv.Document(#"Parameter (dim_std_ExclusionReason)",[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None])
+		in
+		    Source
+	lineageTag: 2cd88b82-e2ed-4afb-8aad-478197d98ef6
+	queryGroup: 'Reference\Transform File from dim_std_ExclusionReason'
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression 'Transform File (dim_std_ExclusionReason)' =
+		let
+		    Source = (#"Parameter (dim_std_ExclusionReason)" as binary) => let
+		    Source = Csv.Document(#"Parameter (dim_std_ExclusionReason)",[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None])
+		in
+		    Source
+		in
+		    Source
+	mAttributes: [ FunctionQueryBinding = "{""exemplarFormulaName"":""Transform Sample File (dim_std_ExclusionReason)""}" ]
+	lineageTag: 8eb9cf46-3eee-44b2-9db4-2df204931dec
+	queryGroup: 'Reference\Transform File from dim_std_ExclusionReason\Helper Queries'
+
+	annotation PBI_ResultType = Function
+
+	annotation PBI_NavigationStepName = Navigation
+
+expression Path_DataModel = "" meta [IsParameterQuery = true, IsParameterQueryRequired = true, Type = "Text"]
+	lineageTag: 7b7b6676-fb2a-4afd-9da4-8dfa96fa95be
+	queryGroup: Meta
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression Path_Reference = "" meta [IsParameterQuery = true, IsParameterQueryRequired = true, Type = "Text"]
+	lineageTag: e4d86778-a074-4724-b730-8a7f329b66f3
+	queryGroup: Meta
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,168 @@
+table dim_Student
+	lineageTag: 2f5c71e7-78dd-4146-b245-ea4f88fc281c
+
+	measure Student_Selected = IF(HASONEVALUE(dim_Student[studentkey]), "#00000000", "#386AA5FF")
+		lineageTag: d1fbfa3b-8e40-488a-a43e-b409cef57158
+
+	column unique_key
+		dataType: string
+		lineageTag: 638448d2-1285-4427-916d-bfcb87efb8d0
+		summarizeBy: none
+		sourceColumn: unique_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_Of_Birth
+		dataType: string
+		lineageTag: c06205c8-a1e9-4f2c-a6ca-d09509b14306
+		summarizeBy: none
+		sourceColumn: Date_Of_Birth
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: c4edafc4-351b-4525-9a45-51fda32a542c
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Legal_Forename
+		dataType: string
+		lineageTag: 1e89ac74-356a-4d44-9abe-c93c76f0a724
+		summarizeBy: none
+		sourceColumn: Legal_Forename
+
+		annotation SummarizationSetBy = Automatic
+
+	column Legal_Surname
+		dataType: string
+		lineageTag: 45a331cd-d24c-4345-b0f9-bdad13cf3195
+		summarizeBy: none
+		sourceColumn: Legal_Surname
+
+		annotation SummarizationSetBy = Automatic
+
+	column Middle_Names
+		dataType: string
+		lineageTag: 4c06158b-425a-4818-b45c-2d0e631c241f
+		summarizeBy: none
+		sourceColumn: Middle_Names
+
+		annotation SummarizationSetBy = Automatic
+
+	column school_id
+		dataType: string
+		lineageTag: b0d6ab97-2215-41ed-a20f-ac0d90fba18d
+		summarizeBy: none
+		sourceColumn: school_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Surname
+		dataType: string
+		lineageTag: 892bed5f-9396-4276-9ba9-b284a479df15
+		summarizeBy: none
+		sourceColumn: Surname
+
+		annotation SummarizationSetBy = Automatic
+
+	column organisationkey
+		dataType: string
+		lineageTag: cc1c446a-d4ce-477f-83f5-21a89977401f
+		summarizeBy: none
+		sourceColumn: organisationkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column studentkey
+		dataType: string
+		lineageTag: 31113baf-181a-47f8-a2b9-18881633c697
+		summarizeBy: none
+		sourceColumn: studentkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column UPN
+		dataType: string
+		lineageTag: 12b61fad-b717-480c-a418-1d7054dd2859
+		summarizeBy: none
+		sourceColumn: UPN
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fullname = [Surname] & ", " & [Forename]
+		lineageTag: d2286a5c-2af3-404f-998b-808f15fb3c2e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Forename
+		dataType: string
+		lineageTag: cf0351de-1715-4bf6-b1ff-e5c923789e68
+		summarizeBy: none
+		sourceColumn: Forename
+
+		annotation SummarizationSetBy = Automatic
+
+	column student_id
+		dataType: string
+		lineageTag: 0d9d41e1-7902-4926-ae97-27be3f9badba
+		summarizeBy: none
+		sourceColumn: student_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column external_id
+		dataType: string
+		lineageTag: 7cd9f949-3682-41e9-b752-ea26f5c731fc
+		summarizeBy: none
+		sourceColumn: external_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sex
+		dataType: string
+		lineageTag: 4340fbba-c86d-4a36-b719-28725ac2a671
+		summarizeBy: none
+		sourceColumn: Sex
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: string
+		lineageTag: f492e399-4ecb-4c55-b4c1-6b82b3f0687e
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_Student = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/dim_Student",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,54 @@
+table dim_NCYearGroup
+	lineageTag: e4991f70-57a9-494a-981c-e1bde335bbc9
+
+	column Year_Group_Description
+		dataType: string
+		lineageTag: 82fc3149-8f8b-42d0-8a8d-6730957eba3a
+		summarizeBy: none
+		sourceColumn: Year_Group_Description
+		sortByColumn: year_sort_order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column std_Year_Group
+		dataType: string
+		lineageTag: 8e4115fb-46aa-4b3d-9e64-67128640bb9b
+		summarizeBy: none
+		sourceColumn: std_Year_Group
+		sortByColumn: year_sort_order
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_sort_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 38f7e475-a2f0-401d-b548-a636d8b58bee
+		summarizeBy: none
+		sourceColumn: year_sort_order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_NCYearGroup = m
+		mode: import
+		queryGroup: Reference
+		source =
+				let
+				    Source = AzureStorage.DataLake(Path_Reference & "/dim_NCYearGroup.csv"),
+				    #"Filtered Hidden Files1" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),
+				    #"Invoke Custom Function1" = Table.AddColumn(#"Filtered Hidden Files1", "Transform File (21)", each #"Transform File (dim_NCYearGroup)"([Content])),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Invoke Custom Function1", {"Name", "Source.Name"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Renamed Columns1", {"Source.Name", "Transform File (21)"}),
+				    #"Expanded Table Column1" = Table.ExpandTableColumn(#"Removed Other Columns1", "Transform File (21)", Table.ColumnNames(#"Transform File (dim_NCYearGroup)"(#"Sample File (dim_NCYearGroup)"))),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Table Column1",{{"Source.Name", type text}, {"Year_Group_Description", type text}, {"std_Year_Group", type text}, {"year_sort_order", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Source.Name"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

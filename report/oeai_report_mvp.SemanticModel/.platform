@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "oeai_report_mvp"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "bc661d2e-8947-456d-a845-c7a6d5919d4f"
+  }
+}

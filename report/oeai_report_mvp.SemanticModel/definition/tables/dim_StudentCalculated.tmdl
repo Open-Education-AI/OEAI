@@ -1,0 +1,105 @@
+table dim_StudentCalculated
+	lineageTag: ef0c578b-8c82-437f-838b-23b88c202047
+
+	column studentkey
+		dataType: string
+		lineageTag: ce510b98-8aa9-412f-9aaa-251c6af566bc
+		summarizeBy: none
+		sourceColumn: studentkey
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_sen
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f9904bf-2138-41f1-83a9-2bc97b44553b
+		summarizeBy: sum
+		sourceColumn: is_sen
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_SEN_String
+		dataType: string
+		lineageTag: 4117c096-7ec6-4d80-b18b-cc73b02fa11b
+		summarizeBy: none
+		sourceColumn: Is_SEN_String
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_PP_String
+		dataType: string
+		lineageTag: b7749271-0259-4a99-adbf-e4b5e33bd3d7
+		summarizeBy: none
+		sourceColumn: Is_PP_String
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_EAL_String
+		dataType: string
+		lineageTag: 2fdc93d4-6658-45f7-bfec-32ba1cff9718
+		summarizeBy: none
+		sourceColumn: Is_EAL_String
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_summer_born
+		dataType: int64
+		formatString: 0
+		lineageTag: f10e7c9b-26ab-4994-87fe-01d63fef87e2
+		summarizeBy: sum
+		sourceColumn: is_summer_born
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Summer_Born_String
+		dataType: string
+		lineageTag: c3cb7c40-83e1-421e-a7b7-cb0dae6aeb42
+		summarizeBy: none
+		sourceColumn: Is_Summer_Born_String
+
+		annotation SummarizationSetBy = Automatic
+
+	column Full_Name
+		dataType: string
+		lineageTag: c470b154-6181-4be5-8de6-2aa56ff28c81
+		summarizeBy: none
+		sourceColumn: Full_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Current_String
+		dataType: string
+		lineageTag: b2e67d0b-c080-4f0f-8cdd-755e017fd45e
+		summarizeBy: none
+		sourceColumn: Is_Current_String
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_StudentCalculated = m
+		mode: import
+		queryGroup: Data
+		source = ```
+				let
+				    // Directly use Path_DataModel to locate the table
+				    Path = Path_DataModel,
+				    
+				    // Combine the path with the table name
+				    CombinedURL = Path & "/dim_StudentCalculated",
+				    
+				    // Load Data from the Data Lake
+				    Data = AzureStorage.DataLake(CombinedURL),
+				    
+				    // Filter for Parquet files and convert
+				    FilteredFiles = Table.SelectRows(Data, each [Extension] = ".parquet"),
+				    ConvertedData = Table.TransformColumns(FilteredFiles, {"Content", Parquet.Document}, null),
+				    
+				    // Combine all files into one table
+				    CombinedData = Table.Combine(ConvertedData[Content])
+				in
+				    CombinedData
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

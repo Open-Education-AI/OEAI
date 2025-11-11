@@ -1,0 +1,148 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "ReportSection7eb9ee90c305a3258e5e",
+  "displayName": "Student Profile",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filterd98dacf946b0e765ce7d",
+        "displayName": "Academic Year",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_Exclusion"
+              }
+            },
+            "Property": "Academic_Year"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "isHiddenInViewMode": true
+      }
+    ]
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 0,
+                    "Percent": -0.1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspace": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 0,
+                    "Percent": -0.1
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "75D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "backgroundColor": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 2,
+                    "Percent": -0.25
+                  }
+                }
+              }
+            }
+          },
+          "foregroundColor": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 0,
+                    "Percent": 0
+                  }
+                }
+              }
+            }
+          },
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "186L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "515c3d01002d37868213",
+      "target": "afd6fbf6a0ace966e77c",
+      "type": "DataFilter"
+    },
+    {
+      "source": "515c3d01002d37868213",
+      "target": "cae6495d3b618b08cea1",
+      "type": "DataFilter"
+    },
+    {
+      "source": "515c3d01002d37868213",
+      "target": "f73c44746590a375b5a0",
+      "type": "DataFilter"
+    },
+    {
+      "source": "515c3d01002d37868213",
+      "target": "4148f80a70e084985907",
+      "type": "DataFilter"
+    },
+    {
+      "source": "515c3d01002d37868213",
+      "target": "5977903c107e0b9d7d06",
+      "type": "DataFilter"
+    },
+    {
+      "source": "515c3d01002d37868213",
+      "target": "13c11adc0b0ed79401b3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "dbde6446758c60c41897",
+      "target": "e9bd3c6d558f31a3cb7f",
+      "type": "DataFilter"
+    }
+  ]
+}
