@@ -136,7 +136,7 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
-/site
+# (MkDocs "/site" default removed: this repo keeps its site config in site/ and builds to ../OEAI-site)
 
 # mypy
 .mypy_cache/
