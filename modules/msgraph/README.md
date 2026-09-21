@@ -1,12 +1,21 @@
 # MSGraph module
 
+| | |
+|---|---|
+| Type | Module (Microsoft Graph reading progress) |
+| Version in this repository | unversioned |
+| In the private repository | Rebuilt as the `reading_progress` module, 1.0.0 (20 Jul 2026) |
+| Status | Superseded |
+
+> Newer builds live in [OEAI-Private](https://github.com/Open-Education-AI/OEAI-Private) for members and are published here at GA. See [asset versions](../../README.md#assets-and-versions), the [roadmap](../../ROADMAP.md) and [known issues](../../KNOWN_ISSUES.md).
+
 The MSGraph module uses the Graph API to extract reading progress data.  It then processes this data into the OEAI standard data model in the data lake.  
 
 Requirements:
 * Cloud Infrastructure meeting OEAI framework standards
 * Use of Renaissance Accelerated Reader program
 * KeyVault configured (see below)
-* [oeai_py.ipynb](oeai_py.ipynb) 
+* [oeai_py.ipynb](../../oeai_py.ipynb) 
 
 Module assets:
 * oeai_mod_msgraph_la_bronze.ipynb: a notebook that loops through all schools and endpoints configured and stores the data in the data lake Bronze layer in json format.

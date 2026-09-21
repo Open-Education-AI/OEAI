@@ -1,0 +1,316 @@
+# OEAI Data Provider — Reference REST API contract (OpenAPI 3.1)
+#
+# This is a STARTING POINT for your developers, not a fixed mandate. It encodes the
+# recommendations in the guide so you don't have to design the contract yourself:
+#   • atomic, record-level resources        • identity on every row (URN / UPN / source ids)
+#   • incremental (updated_after) + full (from/to) + a deletions feed
+#   • cursor pagination                      • read-only, scoped auth (OAuth2 or API key)
+#
+# The easy path:
+#   1. Open this in https://editor.swagger.io to explore it.
+#   2. Generate server stubs:  openapi-generator-cli generate -i oeai-rest-api.openapi.yaml \
+#        -g <python-fastapi | nodejs-express-server | aspnetcore | spring | go-server>
+#   3. Implement each endpoint as a thin read over your existing data store.
+#   4. Keep the response shapes; adapt the field names to your data (and tell OEAI the mapping).
+#
+# `attendance-sessions` is shown as a worked example of a "fact" resource. Replicate the same
+# pattern for each dataset you expose (behaviour-events, assessment-results, reading-sessions, …).
+
+openapi: 3.1.0
+info:
+  title: OEAI Data Provider Reference API
+  version: "1.0.0"
+  summary: Reference contract for exposing atomic education data to an OEAI Data Source Module.
+  description: |
+    A reference REST API for providing data to OEAI. Implement read-only endpoints that return
+    **atomic records** carrying **resolvable identity** (school URN, pupil UPN + your source ids),
+    support **incremental** (`updated_after`) and **full** (`from`/`to`) retrieval, expose
+    **deletes**, and **cursor-paginate**. See the guide's REST playbook for the rationale.
+  contact:
+    name: OEAI Technical Authority
+    email: info@openeducationai.org
+  license:
+    name: For partner implementation
+
+servers:
+  - url: https://api.your-system.example.com/oeai/v1
+    description: Replace with your base URL
+
+security:
+  - oeaiOAuth: [data:read]
+  - apiKeyAuth: []
+
+tags:
+  - name: Discovery
+    description: Which schools/scope this credential can see.
+  - name: Facts
+    description: Atomic, record-level datasets. One endpoint per dataset.
+  - name: Reference
+    description: Code lists that decode coded fields.
+
+paths:
+  /organisations:
+    get:
+      tags: [Discovery]
+      summary: List schools/organisations in scope for this credential
+      description: Lets OEAI discover which schools this credential is authorised for.
+      operationId: listOrganisations
+      parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/pageSize'
+      responses:
+        '200':
+          description: A page of organisations.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, meta]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Organisation' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /attendance-sessions:
+    get:
+      tags: [Facts]
+      summary: Attendance sessions (atomic — one row per pupil per session per date)
+      description: |
+        Worked example of a fact endpoint. Returns atomic records with identity on every row.
+        Use `updated_after` for daily deltas; omit it (or use `from`/`to`) for full/historical pulls.
+        `updated_at` MUST change on every modification (including back-dated corrections), or deltas
+        will miss edits.
+      operationId: listAttendanceSessions
+      parameters:
+        - $ref: '#/components/parameters/school'
+        - $ref: '#/components/parameters/updatedAfter'
+        - $ref: '#/components/parameters/dateFrom'
+        - $ref: '#/components/parameters/dateTo'
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/pageSize'
+      responses:
+        '200':
+          description: A page of attendance sessions.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, meta]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/AttendanceSession' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /attendance-sessions/deletions:
+    get:
+      tags: [Facts]
+      summary: Records deleted since a point in time (tombstones)
+      description: |
+        Returns the ids of attendance-session records deleted since `since`, so OEAI can remove them.
+        Alternative to a soft-delete flag on the main resource — provide one or the other.
+      operationId: listAttendanceSessionDeletions
+      parameters:
+        - $ref: '#/components/parameters/school'
+        - name: since
+          in: query
+          required: true
+          description: Return records deleted at or after this UTC timestamp (ISO 8601).
+          schema: { type: string, format: date-time }
+          example: "2026-06-23T00:00:00Z"
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/pageSize'
+      responses:
+        '200':
+          description: A page of deletions.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, meta]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Deletion' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /reference/{list}:
+    get:
+      tags: [Reference]
+      summary: A code list (e.g. attendance marks, behaviour types)
+      operationId: getReferenceList
+      parameters:
+        - name: list
+          in: path
+          required: true
+          description: The code list to return.
+          schema: { type: string, example: attendance-marks }
+      responses:
+        '200':
+          description: The full code list (small; usually unpaged).
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/ReferenceItem' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { description: Unknown code list. }
+
+components:
+  securitySchemes:
+    oeaiOAuth:
+      type: oauth2
+      description: Preferred. Per-tenant client, read-only scope, short-lived bearer tokens.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.your-system.example.com/oauth/token
+          scopes:
+            data:read: Read-only access to the agreed datasets.
+    apiKeyAuth:
+      type: apiKey
+      description: Alternative. Per-school/per-tenant key sent in a header (never the query string).
+      in: header
+      name: X-API-Key
+
+  parameters:
+    school:
+      name: school
+      in: query
+      required: false
+      description: Filter to one school (URN or your school id). Omit only if the credential is already scoped to a single school.
+      schema: { type: string }
+      example: "139352"
+    updatedAfter:
+      name: updated_after
+      in: query
+      required: false
+      description: Incremental pull — return records changed at or after this UTC timestamp (ISO 8601).
+      schema: { type: string, format: date-time }
+      example: "2026-06-23T00:00:00Z"
+    dateFrom:
+      name: from
+      in: query
+      required: false
+      description: Full/historical pull — earliest event date to include (ISO 8601 date). Combine with `to` for chunked backfills.
+      schema: { type: string, format: date }
+      example: "2019-09-01"
+    dateTo:
+      name: to
+      in: query
+      required: false
+      description: Latest event date to include (ISO 8601 date).
+      schema: { type: string, format: date }
+      example: "2026-06-24"
+    cursor:
+      name: cursor
+      in: query
+      required: false
+      description: Opaque next-page token from `meta.pagination.next`. Cursor/keyset paging is preferred over offset.
+      schema: { type: string }
+    pageSize:
+      name: page_size
+      in: query
+      required: false
+      description: Rows per page.
+      schema: { type: integer, minimum: 1, maximum: 5000, default: 500 }
+
+  headers:
+    RetryAfter:
+      description: Seconds to wait before retrying (on 429).
+      schema: { type: integer }
+      example: 5
+
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    RateLimited:
+      description: Too many requests — back off and retry after the indicated delay.
+      headers:
+        Retry-After: { $ref: '#/components/headers/RetryAfter' }
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+
+  schemas:
+    Organisation:
+      type: object
+      description: A school/establishment in scope.
+      required: [school_urn, school_source_id]
+      properties:
+        school_urn: { type: string, description: DfE Unique Reference Number (6-digit). Priority identifier., example: "139352" }
+        establishment_number: { type: [string, "null"], description: DfE establishment number (4-digit)., example: "4001" }
+        la_code: { type: [string, "null"], description: Local Authority code (3-digit)., example: "335" }
+        ukprn: { type: [string, "null"], description: UK Provider Reference Number (8-digit)., example: "10012345" }
+        school_source_id: { type: string, description: Your own id for the school., example: "SCH-014" }
+        name: { type: [string, "null"], example: "Greenfield Academy" }
+
+    AttendanceSession:
+      type: object
+      description: One pupil's attendance for one session (AM/PM) on one date. Example of an atomic fact.
+      required: [attendance_session_id, school_urn, session_date, session, mark, updated_at]
+      properties:
+        attendance_session_id: { type: string, description: Stable id for THIS record (for dedup & deletes)., example: "AS-8841273" }
+        school_urn: { type: string, description: School URN — identity on every row., example: "139352" }
+        school_source_id: { type: [string, "null"], description: Your school id., example: "SCH-014" }
+        upn: { type: [string, "null"], description: Unique Pupil Number (13-char). Provide if held., example: "X823456789012" }
+        pupil_source_id: { type: string, description: Your/MIS pupil id (unique within the school)., example: "PUP-99213" }
+        session_date: { type: string, format: date, example: "2026-06-23" }
+        session: { type: string, enum: [AM, PM], example: "AM" }
+        mark: { type: string, description: Raw attendance mark/code., example: "L" }
+        mark_meaning: { type: [string, "null"], description: Human meaning of the code (or resolve via /reference)., example: "Late (before registers closed)" }
+        minutes_late: { type: [integer, "null"], example: 12 }
+        updated_at: { type: string, format: date-time, description: Last modification (UTC). MUST bump on every change., example: "2026-06-23T09:02:11Z" }
+        is_deleted: { type: boolean, default: false, description: Soft-delete flag (alternative to the deletions feed). }
+
+    Deletion:
+      type: object
+      description: A tombstone — a record that has been deleted.
+      required: [id, deleted_at]
+      properties:
+        id: { type: string, description: The deleted record's id (e.g. attendance_session_id)., example: "AS-8841273" }
+        school_urn: { type: [string, "null"], example: "139352" }
+        deleted_at: { type: string, format: date-time, example: "2026-06-24T02:14:00Z" }
+
+    ReferenceItem:
+      type: object
+      required: [code, description]
+      properties:
+        code: { type: string, example: "L" }
+        description: { type: string, example: "Late (before registers closed)" }
+        category: { type: [string, "null"], example: "Present" }
+
+    PageMeta:
+      type: object
+      required: [pagination]
+      properties:
+        pagination: { $ref: '#/components/schemas/Pagination' }
+
+    Pagination:
+      type: object
+      properties:
+        next:
+          type: [string, "null"]
+          description: Absolute URL or opaque cursor for the next page; null on the last page.
+          example: "https://api.your-system.example.com/oeai/v1/attendance-sessions?cursor=eyJrIjoxMjN9"
+
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string, example: "rate_limited" }
+        message: { type: string, example: "Too many requests; retry after 5s." }
+        request_id: { type: [string, "null"], description: Quote this when contacting support., example: "req_01HXYZ" }

@@ -1,5 +1,14 @@
 # EES module
 
+| | |
+|---|---|
+| Type | Module (DfE national attendance) |
+| Version in this repository | 20251105.1 |
+| In the private repository | Folded into the `opendata` module (CSP, EES, GIAS), 1.0.0 |
+| Status | GA, superseded |
+
+> Newer builds live in [OEAI-Private](https://github.com/Open-Education-AI/OEAI-Private) for members and are published here at GA. See [asset versions](../../README.md#assets-and-versions), the [roadmap](../../ROADMAP.md) and [known issues](../../KNOWN_ISSUES.md).
+
 The EES module processes the Department for Education (DfE) national attendance data and transforms it into the OEAI standard data model in the data lake. This allows benchmarking of a Trust’s attendance against national figures.
 
 ## Requirements

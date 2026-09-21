@@ -1,5 +1,14 @@
 # Wonde module
 
+| | |
+|---|---|
+| Type | Module (foundational MIS) |
+| Version in this repository | 2024 build, unversioned |
+| In the private repository | 1.0.0 (23 Jul 2026), connector refreshed Aug 2026 |
+| Status | GA, superseded |
+
+> Newer builds live in [OEAI-Private](https://github.com/Open-Education-AI/OEAI-Private) for members and are published here at GA. See [asset versions](../../README.md#assets-and-versions), the [roadmap](../../ROADMAP.md) and [known issues](../../KNOWN_ISSUES.md).
+
 The Wonde module uses the Wonde API to extract school data and then processes this data into the OEAI standard data model in the data lake.
 
 ## Requirements

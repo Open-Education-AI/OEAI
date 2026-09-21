@@ -1,5 +1,14 @@
 # Renaissance module
 
+| | |
+|---|---|
+| Type | Module (Renaissance Accelerated Reader) |
+| Version in this repository | unversioned |
+| In the private repository | No newer version |
+| Status | Work in progress, not maintained |
+
+> Newer builds live in [OEAI-Private](https://github.com/Open-Education-AI/OEAI-Private) for members and are published here at GA. See [asset versions](../../README.md#assets-and-versions), the [roadmap](../../ROADMAP.md) and [known issues](../../KNOWN_ISSUES.md).
+
 The Renaissance module uses the Renaisance SFTP to extract Accelerated Reader data.  It then processes this data into the OEAI standard data model in the data lake.
 
 Requirements:
@@ -7,7 +16,7 @@ Requirements:
 * Wonde school installations, either as a Trust, or through OEAI (contact us)
 * Use of Microsoft infrastrucute and reading progress program
 * KeyVault configured (see below)
-* [oeai_py.ipynb](oeai_py.ipynb) 
+* [oeai_py.ipynb](../../oeai_py.ipynb) 
 
 Module assets:
 * oeai_mod_renaisance_bronze.ipynb: a notebook that downloads data using SFTP and extracts data to csv files per school
