@@ -1,0 +1,185 @@
+# Material for MkDocs site over the OEAI public repository.
+# The repository Markdown and notebooks are the source; nothing is authored under site/.
+# Build locally:  pip install -r site/requirements.txt && mkdocs build -f site/mkdocs.yml
+site_name: Open Education AI
+site_description: The OEAI framework — reference architecture, partner integration guidance, modules, schema and guides.
+site_url: https://open-education-ai.github.io/OEAI/
+repo_url: https://github.com/Open-Education-AI/OEAI
+repo_name: Open-Education-AI/OEAI
+edit_uri: edit/main/
+copyright: Apache-2.0 · Open Education AI
+
+# The whole repository is the docs tree; the built site must sit outside it.
+docs_dir: ..
+site_dir: ../../OEAI-site
+
+exclude_docs: |
+  .git/
+  .github/
+  .worktrees/
+  site/
+  scripts/
+  report/
+  reference/
+  cloud-infrastructure/
+  node_modules/
+  *.7z
+  *.dbml
+  *.docx
+  *.png
+  *.ps1
+  .gitignore
+  LICENSE
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.action.edit
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      include: ["*.ipynb"]
+      execute: false
+      include_source: true
+      show_input: true
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+nav:
+  - Home: README.md
+  - Roadmap: ROADMAP.md
+  - Known issues: KNOWN_ISSUES.md
+  - Reference architecture:
+      - reference-architecture: docs/reference-architecture/README.md
+      - System architecture: docs/reference-architecture/01-system-architecture.md
+      - Module architecture: docs/reference-architecture/02-module-architecture.md
+      - Data architecture: docs/reference-architecture/03-data-architecture.md
+      - Integration architecture: docs/reference-architecture/04-integration-architecture.md
+      - Security and accreditation: docs/reference-architecture/05-security-and-accreditation.md
+      - Decisions: docs/reference-architecture/DECISIONS.md
+      - References: docs/reference-architecture/REFERENCES.md
+  - Partner integration:
+      - Overview: docs/partner-integration/README.md
+      - Guide:
+          - docs/partner-integration/guide/01-overview.md
+          - docs/partner-integration/guide/02-choosing-a-method.md
+          - docs/partner-integration/guide/03-what-data-to-provide.md
+          - docs/partner-integration/guide/04-identity-and-keys.md
+          - docs/partner-integration/guide/05-authentication-and-authorisation.md
+          - docs/partner-integration/guide/06-incremental-and-historical-loads.md
+          - docs/partner-integration/guide/07-api-design-and-quality.md
+          - docs/partner-integration/guide/08-security-and-governance.md
+      - Method playbooks:
+          - docs/partner-integration/guide/method-playbooks/rest-api.md
+          - docs/partner-integration/guide/method-playbooks/odata.md
+          - docs/partner-integration/guide/method-playbooks/data-warehouse-and-secure-share.md
+          - docs/partner-integration/guide/method-playbooks/sql-database.md
+          - docs/partner-integration/guide/method-playbooks/files-sftp-csv.md
+      - Templates:
+          - docs/partner-integration/templates/data-provision-questionnaire.md
+          - docs/partner-integration/templates/vendor-specific-guide-template.md
+      - Appendices:
+          - docs/partner-integration/appendices/A-canonical-entities-and-fields.md
+          - docs/partner-integration/appendices/B-readiness-checklist.md
+          - docs/partner-integration/appendices/C-glossary.md
+          - docs/partner-integration/appendices/D-worked-example.md
+      - Changelog: docs/partner-integration/CHANGELOG.md
+  - Modules:
+      - modules/README.md
+      - Wonde:
+          - Overview: modules/wonde/README.md
+          - oeai_mod_wonde_bronze: modules/wonde/oeai_mod_wonde_bronze.ipynb
+          - oeai_mod_wonde_env_var: modules/wonde/oeai_mod_wonde_env_var.ipynb
+          - oeai_mod_wonde_gold: modules/wonde/oeai_mod_wonde_gold.ipynb
+          - oeai_mod_wonde_silver: modules/wonde/oeai_mod_wonde_silver.ipynb
+      - Arbor:
+          - Overview: modules/arbor/README.md
+          - oeai_mod_arbor_bronze: modules/arbor/oeai_mod_arbor_bronze.ipynb
+          - oeai_mod_arbor_env_var: modules/arbor/oeai_mod_arbor_env_var.ipynb
+          - oeai_mod_arbor_gold: modules/arbor/oeai_mod_arbor_gold.ipynb
+          - oeai_mod_arbor_silver: modules/arbor/oeai_mod_arbor_silver.ipynb
+      - Bromcom:
+          - Overview: modules/bromcom/README.md
+          - oeai_mod_bromcom_bronze_odata: modules/bromcom/oeai_mod_bromcom_bronze_odata.ipynb
+          - oeai_mod_bromcom_bronze_sql: modules/bromcom/oeai_mod_bromcom_bronze_sql.ipynb
+          - oeai_mod_bromcom_env_var: modules/bromcom/oeai_mod_bromcom_env_var.ipynb
+          - oeai_mod_bromcom_gold: modules/bromcom/oeai_mod_bromcom_gold.ipynb
+          - oeai_mod_bromcom_silver: modules/bromcom/oeai_mod_bromcom_silver.ipynb
+      - EES:
+          - Overview: modules/ees/README.md
+          - oeai_mod_ees_bronze: modules/ees/oeai_mod_ees_bronze.ipynb
+          - oeai_mod_ees_env_var: modules/ees/oeai_mod_ees_env_var.ipynb
+          - oeai_mod_ees_gold: modules/ees/oeai_mod_ees_gold.ipynb
+          - oeai_mod_ees_silver: modules/ees/oeai_mod_ees_silver.ipynb
+      - MS Graph:
+          - Overview: modules/msgraph/README.md
+          - oeai_mod_msgraph_la_bronze: modules/msgraph/oeai_mod_msgraph_la_bronze.ipynb
+          - oeai_mod_msgraph_la_gold: modules/msgraph/oeai_mod_msgraph_la_gold.ipynb
+          - oeai_mod_msgraph_la_silver: modules/msgraph/oeai_mod_msgraph_la_silver.ipynb
+      - Renaissance:
+          - Overview: modules/renaissance/README.md
+          - oeai_mod_renaissance_bronze: modules/renaissance/oeai_mod_renaissance_bronze.ipynb
+          - oeai_mod_renaissance_gold: modules/renaissance/oeai_mod_renaissance_gold.ipynb
+          - oeai_mod_renaissance_silver: modules/renaissance/oeai_mod_renaissance_silver.ipynb
+      - Weather:
+          - Overview: modules/weather/README.md
+          - oeai_mod_weather_bronze: modules/weather/oeai_mod_weather_bronze.ipynb
+          - oeai_mod_weather_silver: modules/weather/oeai_mod_weather_silver.ipynb
+      - Police:
+          - Overview: modules/police/README.md
+          - oeai_mod_police: modules/police/oeai_mod_police.ipynb
+          - oeai_mod_police_env_var: modules/police/oeai_mod_police_env_var.ipynb
+  - Packages:
+      - packages/README.md
+      - MIS Insight:
+          - Overview: packages/MIS_Insight/README.md
+          - oeai_pkg_gat_edst: packages/MIS_Insight/oeai_pkg_gat_edst.ipynb
+      - Predictive Attendance:
+          - Overview: packages/Predictive_Attendance/README.md
+          - oeai_pkg_dat_ml_attendance: packages/Predictive_Attendance/oeai_pkg_dat_ml_attendance.ipynb
+  - Shared foundations:
+      - oeai_py: oeai_py.ipynb
+      - oeai_logger: oeai_logger.ipynb
+  - Guides:
+      - Self-implementation guide: docs/OEAI_Self_Implementation_Guide.md
+      - Education use cases: education-use-cases/README.md
+      - Contributing: CONTRIBUTING.md
+      - Security: SECURITY.md
