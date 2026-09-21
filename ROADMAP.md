@@ -94,7 +94,7 @@ Sources the community has asked for and that are not yet in requirements. Regist
 
 | Item | What | Status |
 |---|---|---|
-| Google-native reference implementation | A `gcp-native` implementation profile of the [reference architecture](https://github.com/Open-Education-AI/OEAI-Private/tree/main/docs/reference-architecture), with first assets on BigQuery | In design with a Google-stack trust |
+| Google-native reference implementation | A `gcp-native` implementation profile of the [reference architecture](docs/reference-architecture/README.md), with first assets on BigQuery | In design with a Google-stack trust |
 | Partner enablement packs 2 and 3 | "How to build an OEAI module" and a synthetic test stub for partners | Planned; pack 1 is [published](docs/partner-integration/README.md) |
 | Schema evolution process | Additive-first changes, deprecation with notice, versioned releases with long-term-support lines | Request for Comment in preparation for the Technical Authority |
 | Partner accreditation | Widening who OEAI can commission to build modules | Criteria being defined by the Technical Authority |

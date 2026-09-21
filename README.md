@@ -21,7 +21,7 @@ OEAI is a **composable data framework for education**. A trust chooses building 
 
 Two properties make it work. **Modules are vertical**: each owns the full raw → standardised → enriched flow for exactly one source. **Packages are horizontal**: they read the standard schema, not source systems, so a package built once works for any trust whose modules meet the schema contract. Data lands and stays in an environment the trust controls; it is never pooled centrally.
 
-The full definition is the **OEAI Reference Architecture**: system, module, data, integration, and security and accreditation. It is held in the [private repository](https://github.com/Open-Education-AI/OEAI-Private/tree/main/docs/reference-architecture) and is being published here following Technical Authority sign-off.
+The full definition is the **[OEAI Reference Architecture](docs/reference-architecture/README.md)**: system, module, data, integration, and security and accreditation.
 
 ## Two repositories: public and private
 
@@ -58,7 +58,7 @@ The shared foundations are `%run` by every module. Each module folder has its ow
 
 ## Documentation and standards
 
-* **OEAI Reference Architecture**: the platform-neutral definition of the framework in five parts, with its decision register and evidence. Currently in the [private repository](https://github.com/Open-Education-AI/OEAI-Private/tree/main/docs/reference-architecture); publication here follows Technical Authority sign-off.
+* **[OEAI Reference Architecture](docs/reference-architecture/README.md)**: the platform-neutral definition of the framework in five parts, with its decision register and evidence.
 * **[Providing data to OEAI: integration guidance for EdTech partners](docs/partner-integration/README.md)**: the standard OEAI asks vendors and MIS providers to build to, with a reference OpenAPI contract, method playbooks and a readiness questionnaire. Issued by the Technical Authority.
 * **[Self-implementation guide](docs/OEAI_Self_Implementation_Guide.md)**: how a trust applies module and package updates from this repository into its own environment, with the accompanying disclaimer.
 * **Standard schema**: [Silver](docs/schema_silver.dbml) and [Gold](docs/schema_gold.dbml) in DBML. Paste into [dbdiagram.io](https://dbdiagram.io) to browse. Per-asset schemas for the private assets are documented alongside them in the private repository.
@@ -104,7 +104,7 @@ modules/                 GA-released data source modules (one folder per source 
 packages/                GA-released packages (multi-source analytical capabilities)
 education-use-cases/     Education Use Case template
 cloud-infrastructure/    Infrastructure setup scripts (Microsoft Fabric)
-docs/                    Partner integration guidance, schema, guides
+docs/                    Reference architecture, partner integration guidance, schema, guides
 report/                  Power BI report definition for the MIS Insight MVP
 reference/               Reference data used by the modules
 oeai_py.ipynb            Shared OEAI Python foundation (%run by every module)
