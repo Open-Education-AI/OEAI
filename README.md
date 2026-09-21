@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/brand/oeai-logo-white.png">
+    <img src="docs/assets/brand/oeai-logo-blue.png" alt="Open Education AI" width="320">
+  </picture>
+</p>
+
 # Open Education AI (OEAI)
 
 **Open Education AI is a sector-led, non-profit initiative that gives schools and school groups an open, standards-based way to bring their data together, in a platform they own, and turn it into insight that improves outcomes for young people.**

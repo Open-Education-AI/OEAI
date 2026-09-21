@@ -1,0 +1,96 @@
+/* Open Education AI brand theme for the Material for MkDocs site.
+   Colours are taken from the OEAI website palette and the logo; fonts match the website
+   (Familjen Grotesk for headings, Inter for body). Referenced from site/mkdocs.yml. */
+
+@import url("https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&display=swap");
+
+:root,
+[data-md-color-scheme="default"] {
+  --oeai-blue: #094bcc;        /* primary: website brand blue */
+  --oeai-blue-bright: #0058f8; /* logo mark */
+  --oeai-blue-light: #5492ce;
+  --oeai-navy: #082f7b;
+  --oeai-ink: #111428;
+
+  --md-primary-fg-color: var(--oeai-blue);
+  --md-primary-fg-color--light: var(--oeai-blue-light);
+  --md-primary-fg-color--dark: var(--oeai-navy);
+  --md-primary-bg-color: #ffffff;
+  --md-accent-fg-color: var(--oeai-blue-bright);
+  --md-accent-fg-color--transparent: rgba(0, 88, 248, 0.1);
+  --md-typeset-a-color: var(--oeai-blue);
+  --md-default-fg-color: var(--oeai-ink);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: var(--oeai-navy);
+  --md-primary-fg-color--light: var(--oeai-blue);
+  --md-primary-fg-color--dark: #051d4d;
+  --md-accent-fg-color: #95b9ff;
+  --md-accent-fg-color--transparent: rgba(149, 185, 255, 0.1);
+  --md-typeset-a-color: #95b9ff;
+}
+
+/* Header: white mark next to the site name */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 1.7rem;
+  width: auto;
+}
+
+.md-header__topic {
+  font-family: "Familjen Grotesk", "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Headings in the website's display face */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-family: "Familjen Grotesk", "Inter", sans-serif;
+  font-weight: 700;
+  color: var(--oeai-ink);
+}
+
+[data-md-color-scheme="slate"] .md-typeset h1,
+[data-md-color-scheme="slate"] .md-typeset h2,
+[data-md-color-scheme="slate"] .md-typeset h3 {
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Table header tint and admonition accent follow the brand blue */
+.md-typeset table:not([class]) th {
+  background-color: rgba(9, 75, 204, 0.06);
+  color: var(--md-default-fg-color);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background-color: rgba(149, 185, 255, 0.12);
+}
+
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-color: var(--oeai-blue);
+}
+
+.md-typeset .note > .admonition-title,
+.md-typeset .note > summary {
+  background-color: rgba(9, 75, 204, 0.08);
+}
+
+/* README logo: the blue lockup has a black wordmark, so swap to the white lockup in dark mode.
+   (GitHub handles this with the <picture> element; the site palette toggle is not a media query.) */
+[data-md-color-scheme="slate"] .md-typeset img[alt="Open Education AI"] {
+  content: url("oeai-logo-white.png");
+}
+
+/* Footer */
+.md-footer-meta {
+  background-color: var(--oeai-ink);
+}

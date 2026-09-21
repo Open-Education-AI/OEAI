@@ -26,7 +26,6 @@ exclude_docs: |
   *.7z
   *.dbml
   *.docx
-  *.png
   *.ps1
   .gitignore
   LICENSE
@@ -34,6 +33,11 @@ exclude_docs: |
 theme:
   name: material
   language: en
+  logo: docs/assets/brand/oeai-mark-white.png
+  favicon: docs/assets/brand/favicon.png
+  font:
+    text: Inter
+    code: JetBrains Mono
   features:
     - navigation.tabs
     - navigation.sections
@@ -45,17 +49,20 @@ theme:
     - content.code.copy
   palette:
     - scheme: default
-      primary: teal
-      accent: teal
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - scheme: slate
-      primary: teal
-      accent: teal
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+
+extra_css:
+  - docs/assets/brand/oeai.css
 
 plugins:
   - search
