@@ -75,6 +75,7 @@ The shared foundations are `%run` by every module. Each module folder has its ow
 | Austen Pauleston | Cambrian IT | Vice Chair |
 | Dewan Chowdhury | Co-op Academies | Member |
 | Jose Diaz | Aircury | Member |
+| Tasmin Langley | United Learning | Member |
 | Ben Dobbs | Archway Trust | Member |
 | Kevin Garrod | Zensec | Member |
 | Mark Newman | RMAT | Member |
@@ -82,7 +83,7 @@ The shared foundations are `%run` by every module. Each module folder has its ow
 | Mark Vanderburgh | Inspiration Trust | Member |
 | Rob Wall | Danes Ed Trust | Member |
 
-The Technical Authority is supported by Tasmin Langley (United Learning, seconded technical support) and by an OEAI secretariat.
+The Technical Authority is supported by an OEAI secretariat.
 
 **Sector Advisory Board.** Advises on priorities and on advocacy with government. Chaired by Sir Mark Grundy.
 
