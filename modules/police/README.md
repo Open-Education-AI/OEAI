@@ -1,5 +1,14 @@
 # Police module
 
+| | |
+|---|---|
+| Type | Module (UK Police open data) |
+| Version in this repository | unversioned |
+| In the private repository | No newer version |
+| Status | Work in progress, not maintained |
+
+> Newer builds live in [OEAI-Private](https://github.com/Open-Education-AI/OEAI-Private) for members and are published here at GA. See [asset versions](../../README.md#assets-and-versions), the [roadmap](../../ROADMAP.md) and [known issues](../../KNOWN_ISSUES.md).
+
 The Police module integrates data from the UK Police open data API to enrich the OEAI data model with local context (such as crime statistics in areas relevant to the schools or students). It retrieves crime data based on student home postcodes and stores this information in the data lake for analysis.
 
 ## Requirements

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security concern
+    url: https://github.com/Open-Education-AI/OEAI/security/advisories/new
+    about: Report a vulnerability privately. Do not open a public issue.
+  - name: Membership and general enquiries
+    url: https://www.openeducationai.org/
+    about: Joining OEAI, the community, and the private repository.

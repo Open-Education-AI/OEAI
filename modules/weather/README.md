@@ -1,5 +1,14 @@
 # Weather module
 
+| | |
+|---|---|
+| Type | Module (OpenWeatherMap) |
+| Version in this repository | unversioned |
+| In the private repository | No newer version |
+| Status | Work in progress, not maintained |
+
+> Newer builds live in [OEAI-Private](https://github.com/Open-Education-AI/OEAI-Private) for members and are published here at GA. See [asset versions](../../README.md#assets-and-versions), the [roadmap](../../ROADMAP.md) and [known issues](../../KNOWN_ISSUES.md).
+
 The Weather module uses the OpenWeatherMap API to extract reading progress data.  It then processes this data into the OEAI standard data model in the data lake.  
 
 Requirements:
@@ -7,7 +16,7 @@ Requirements:
 * Wonde school installations, either as a Trust, or through OEAI (contact us)
 * OpenWeatherMap account and API key
 * KeyVault configured (see below)
-* [oeai_py.ipynb](oeai_py.ipynb) 
+* [oeai_py.ipynb](../../oeai_py.ipynb) 
 
 Module assets:
 * oeai_mod_weather_bronze.ipynb: a notebook that (when complete) loops through all schools and enpoints configured and stores the data in the data lake Bronze layer in json format.
