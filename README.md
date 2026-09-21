@@ -67,7 +67,22 @@ The shared foundations are `%run` by every module. Each module folder has its ow
 
 ## Governance
 
-**Technical Authority.** Safeguards the integrity and quality of OEAI's technical architecture, sets the quality bar for new modules, owns the standard schema and the partner integration standard, and decides when an asset is ready for GA. Chaired by Matthew Woodruff. Its members are senior data and engineering leads from multi-academy trusts, EdTech and cyber-security, appointed for an initial twelve-month term with declared interests. The current membership is listed on the [OEAI website](https://www.openeducationai.org/about-us).
+**Technical Authority.** Safeguards the integrity and quality of OEAI's technical architecture, sets the quality bar for new modules, owns the standard schema and the partner integration standard, and decides when an asset is ready for GA. Members are appointed for an initial twelve-month term, register their interests, and step aside from any item in which they have a conflict. Proposals reach it as Request for Comment papers, with a commenting period for the community before a decision at the next meeting.
+
+| Member | Organisation | Role |
+|---|---|---|
+| Matt Woodruff | Edequity AI | Chair |
+| Austen Pauleston | Cambrian IT | Vice Chair |
+| Dewan Chowdhury | Co-op Academies | Member |
+| Jose Diaz | Aircury | Member |
+| Ben Dobbs | Archway Trust | Member |
+| Kevin Garrod | Zensec | Member |
+| Mark Newman | RMAT | Member |
+| Vik Paw | International Schools Partnership | Member |
+| Mark Vanderburgh | Inspiration Trust | Member |
+| Rob Wall | Danes Ed Trust | Member |
+
+The Technical Authority is supported by Tasmin Langley (United Learning, seconded technical support) and by an OEAI secretariat.
 
 **Sector Advisory Board.** Advises on priorities and on advocacy with government. Chaired by Sir Mark Grundy.
 
